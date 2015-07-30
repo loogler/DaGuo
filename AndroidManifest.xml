@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.daguo"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        <activity
+            android:name="com.daguo.ui.before.MainLoadingAty"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- com.daguoschool.ui.before. 登录相关的准备事项 -->
+
+        <activity android:name="com.daguo.ui.before.MainLoginAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.before.MainWelcomeAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.before.GuideViewDoor" >
+        </activity>
+
+        <!-- com.daguoschool.ui.main.  登录主页部分的界面 -->
+        <activity android:name="com.daguo.ui.main.MainActivity" >
+        </activity>
+        <activity android:name="com.daguo.ui.main.Main_1Aty" >
+        </activity>
+        <activity android:name="com.daguo.ui.main.Main_2Aty" >
+        </activity>
+        <activity android:name="com.daguo.ui.main.Main_3Aty" >
+        </activity>
+        <activity android:name="com.daguo.ui.main.Main_4Aty" >
+        </activity>
+        <!-- com.daguoschool.ui.school 校园部分 -->
+        <activity android:name="com.daguo.ui.school.School_MainAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.school.School_Main1Aty" >
+        </activity>
+        <activity android:name="com.daguo.ui.school.School_Main2Aty" >
+        </activity>
+        <activity android:name="com.daguo.ui.school.School_Main3Aty" >
+        </activity>
+        <activity android:name="com.daguo.ui.school.School_Main4Aty" >
+        </activity>
+
+        <!-- alipay 支付宝 -->
+        <activity android:name="com.daguo.util.alipay.PayDemoActivity" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <!-- 短信流量包 -->
+        <activity
+            android:name="com.mopote.sdk.surface.FlowShopActivity"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" >
+                </action>
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.mopote.sdk.surface.FlowMainActivity"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.mopote.sdk.surface.FlowOperatorSelectActivity"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.mopote.sdk.surface.FlowRankActivity"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mopote.sdk.surface.ReviseActivity"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mopote.sdk.surface.FlowRankDetailActivity"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mopote.sdk.surface.SettingActivity"
+            android:configChanges="locale|keyboard|keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity 
+            android:name="com.alipay.android.app.sdk.WapPayActivity" 
+            android:screenOrientation="portrait"> 
+        </activity> 
+
+        <service android:name="com.mopote.lib.statistics.StatisticsService" >
+            <intent-filter>
+                <action android:name="mopote_traffic_service" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.mopote.lib.statistics.BootReceiver" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.ANY_DATA_STATE" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.BOOT_COMPLETED" >
+                </action>
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.CLOSE_SYSTEM_DIALOGS" />
+                <action android:name="android.content.res.Configuration" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.MEDIA_BAD_REMOVAL" />
+                <action android:name="android.intent.action.MEDIA_REMOVED" />
+                <action android:name="android.intent.action.MEDIA_SHARED" />
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+                <action android:name="android.intent.action.MEDIA_CHECKING" />
+                <action android:name="android.intent.action.MEDIA_EJECT" />
+
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="com.android.systemplus.traffic" />
+                <action android:name="com.android.systemplus.start" />
+            </intent-filter>
+        </receiver>
+	<receiver android:name="com.mopote.lib.net.AlarmReceiver" />
+        <receiver android:name="com.mopote.fm.dao.push.PushReceiver" >
+            <intent-filter>
+                <action android:name="com.mopote.fm.push.receiver" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.mopote.fm.dao.revise.CalibrateCycleReceiver" >
+            <intent-filter>
+                <action android:name="com.mopote.fm.alarm.receiver" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

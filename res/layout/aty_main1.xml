@@ -1,0 +1,193 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <!-- 头部 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/green_home"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/lin1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/tabhome_userbtn"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/iv_user"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:paddingLeft="5dip"
+                android:scaleType="fitCenter"
+                android:src="@drawable/main_user" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="大果校园"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/tabhome_userbtn"
+            android:gravity="center_vertical" >
+
+            <ImageView
+                android:id="@+id/iv_mail"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:paddingRight="10dip"
+                android:scaleType="fitCenter"
+                android:src="@drawable/main_ly" />
+
+            <ImageView
+                android:id="@+id/iv_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/iv_mail"
+                android:src="@drawable/tabhome_xx" />
+        </RelativeLayout>
+    </LinearLayout>
+    <!-- 头部结束   轮播开始 -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/tuijian_vPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp" >
+                </android.support.v4.view.ViewPager>
+
+                <RadioGroup
+                    android:id="@+id/radioGroup1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:button="@drawable/btn_radio_holo_light1"
+                    android:clickable="false"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/radio0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:button="@drawable/btn_radio_holo_light1"
+                        android:checked="true"
+                        android:clickable="false" />
+
+                    <RadioButton
+                        android:id="@+id/radio1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:button="@drawable/btn_radio_holo_light1"
+                        android:clickable="false" />
+                </RadioGroup>
+            </RelativeLayout>
+            <!-- 以上轮播广告    下面通知 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/tabhome_gg"
+                    android:text=" 通知 :  "
+                    android:textColor="@color/green_home"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="好消息，新一波大降价"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/lightgrey" />
+
+            <!-- 以上通知  如下功能按钮 -->
+
+            <include
+                android:id="@+id/functionBtn"
+                layout="@layout/include_tab1_btn" />
+
+            <!-- 以上功能按钮，下面是横排广告 -->
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <com.daguo.util.base.NoScrollGridView
+                        android:id="@+id/grid"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:horizontalSpacing="5dp"
+                        android:numColumns="auto_fit"
+                        android:stretchMode="columnWidth"
+                        android:verticalSpacing="1dp" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/white"
+                android:orientation="vertical" >
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_guanggao"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                </android.support.v4.view.ViewPager>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

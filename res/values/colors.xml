@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="green_home">#4fc15f</color>
+    <color name="green_press">#38b164</color>
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="drakgrey">#88222222</color>
+    <color name="lightgrey">#e5e5e5</color>
+
+</resources>
