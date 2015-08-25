@@ -3,6 +3,7 @@ package com.daguo.ui.school;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daguo.R;
+import com.daguo.ui.main.MainActivity;
 
 /**
  * 
@@ -42,13 +44,16 @@ public class School_MainAty extends TabActivity {
 		addTabs("我", R.drawable.school_main_tabselector_drawable4,
 				School_Main4Aty.class);
 	}
-/**
- * 
- * @param labelId 标签
- * @param drawableId 图片路径
- * @param c 跳转的class
- * 动态添加每个tab的方法。
- */
+
+	/**
+	 * 
+	 * @param labelId
+	 *            标签
+	 * @param drawableId
+	 *            图片路径
+	 * @param c
+	 *            跳转的class 动态添加每个tab的方法。
+	 */
 	void addTabs(String labelId, int drawableId, Class<?> c) {
 		Intent intent = new Intent(this, c);
 		TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
@@ -64,18 +69,26 @@ public class School_MainAty extends TabActivity {
 		tabHost.addTab(spec);
 
 	}
-/**
- * 
- * @param b 参数view 
- * 点击事件，此处是覆盖的方法使底部焦点被夺去。
- */
+
+	/**
+	 * 
+	 * @param b
+	 *            参数view 点击事件，此处是覆盖的方法使底部焦点被覆盖。
+	 */
 	public void openCameraActivity(View b) {
 		Toast.makeText(School_MainAty.this, "大果校园！！", Toast.LENGTH_SHORT)
 				.show();
 	}
-	
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent intent = new Intent(getBaseContext(), MainActivity.class);
+			startActivity(intent);
+			finish();
+		}
+		return true;
 
 	}
-
-
+}

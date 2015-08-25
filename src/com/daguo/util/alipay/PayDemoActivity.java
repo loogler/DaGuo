@@ -4,19 +4,29 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.daguo.R;
+import com.daguo.modem.choujiang.ChouJiangAty;
+import com.daguo.ui.before.MyAppliation;
+import com.daguo.utils.HttpUtil;
 
 public class PayDemoActivity extends FragmentActivity {
 
@@ -28,6 +38,11 @@ public class PayDemoActivity extends FragmentActivity {
 	private static final int SDK_PAY_FLAG = 1;
 
 	private static final int SDK_CHECK_FLAG = 2;
+	private String pay_num;
+	private String orderInfoId;
+
+	private String price, name, detail;
+	private TextView priceButton, nameButton, detailButton;
 
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -40,9 +55,33 @@ public class PayDemoActivity extends FragmentActivity {
 				if (TextUtils.equals(resultStatus, "9000")) {
 					Toast.makeText(PayDemoActivity.this, "支付成功",
 							Toast.LENGTH_SHORT).show();
+					// new Submit_Pay_statusThread().start();
+					// 更新订单状态
+					String url = HttpUtil.SUBMIT_ORDER_PUB;
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("pay_status", "1");
+					map.put("pay_num", pay_num);
+					map.put("id", orderInfoId);
+					String reString;
+					try {
+						reString = HttpUtil.postRequest(url, map);
+						if (reString != null && !reString.equals("")) {
+							// 更改成功
+							Log.d("支付状态更改 ", "=========成功！");
+							Intent intent = new Intent(PayDemoActivity.this,
+									ChouJiangAty.class);
+							intent.putExtra("orderInfoId", orderInfoId);
+							startActivity(intent);
+							finish();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
 				} else {
 					// 判断resultStatus 为非“9000”则代表可能支付失败
-					// “8000” 代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+					// “8000”
+					// 代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
 					if (TextUtils.equals(resultStatus, "8000")) {
 						Toast.makeText(PayDemoActivity.this, "支付结果确认中",
 								Toast.LENGTH_SHORT).show();
@@ -70,14 +109,78 @@ public class PayDemoActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay_main);
+		MyAppliation.getInstance().addActivity(this);
+
+		Intent intent = getIntent();
+
+		priceButton = (TextView) findViewById(R.id.product_price);
+		nameButton = (TextView) findViewById(R.id.product_subject);
+		detailButton = (TextView) findViewById(R.id.product_info);
+		price = intent.getStringExtra("price");
+		name = intent.getStringExtra("name");
+		detail = intent.getStringExtra("detail");
+		orderInfoId = intent.getStringExtra("orderInfoId");
+		priceButton.setText(price);
+		nameButton.setText(name);
+		detailButton.setText(detail);
+		if (price == null || price.equals("")) {
+			new AlertDialog.Builder(PayDemoActivity.this).setMessage(
+					"支付价格为空，订单异常").setPositiveButton("确定",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							MyAppliation.getInstance().exit();
+						}
+					});
+		} else if (name == null || name.equals("")) {
+			new AlertDialog.Builder(PayDemoActivity.this).setMessage(
+					"商品名称不存在，订单异常").setPositiveButton("确定",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							MyAppliation.getInstance().exit();
+						}
+					});
+		}
 	}
+
+	/**
+	 * 更新支付状态
+	 * 
+	 * @author Bugs_Rabbit 時間： 2015-8-9 下午2:25:27
+	 */
+	// class Submit_Pay_statusThread extends Thread {
+	// @Override
+	// public void run() {
+	// super.run();
+	// try {
+	// String url = HttpUtil.SUBMIT_ORDER_PUB;
+	// Map<String, String> map = new HashMap<String, String>();
+	// map.put("pay_status", "1");
+	// map.put("pay_num", pay_num);
+	// map.put("id", BroadBandOrderAty.orderInfoId_unPay);
+	// String reString = HttpUtil.postRequest(url, map);
+	// if (reString != null && !reString.equals("")) {
+	// // 更改成功
+	// Log.d("支付状态更改 ", "=========成功！");
+	// }
+	// } catch (Exception e) {
+	// }
+	// }
+	// }
 
 	/**
 	 * call alipay sdk pay. 调用SDK支付
 	 * 
 	 */
 	public void pay(View v) {
-		String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
+		// String name = BroadBandAty.orderinfos;
+		// String price = BroadBandAty.orderprice;
+		// String detail = BroadBandAty.ordername + " 月";
+
+		String orderInfo = getOrderInfo(name, detail, price);
 		String sign = sign(orderInfo);
 		try {
 			// 仅需对sign 做URL编码
@@ -147,7 +250,9 @@ public class PayDemoActivity extends FragmentActivity {
 	 * create the order info. 创建订单信息
 	 * 
 	 */
+
 	public String getOrderInfo(String subject, String body, String price) {
+
 		// 合作者身份ID
 		String orderInfo = "partner=" + "\"" + PARTNER + "\"";
 
@@ -208,6 +313,7 @@ public class PayDemoActivity extends FragmentActivity {
 		Random r = new Random();
 		key = key + r.nextInt();
 		key = key.substring(0, 15);
+		pay_num = key;
 		return key;
 	}
 

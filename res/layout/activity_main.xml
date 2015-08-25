@@ -8,13 +8,13 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:paddingBottom="55dp" >
+        android:paddingBottom="50dp" >
     </android.support.v4.view.ViewPager>
 
     <RadioGroup
         android:id="@+id/rdg"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="horizontal" >
@@ -33,7 +33,7 @@
             android:gravity="center"
             android:text="首页"
             android:textColor="@color/tabhome_btntextcolor"
-            android:textSize="14dp" />
+            android:textSize="12dp" />
 
         <RadioButton
             android:id="@+id/interaction"
@@ -46,7 +46,7 @@
             android:gravity="center"
             android:text="商城"
             android:textColor="@color/tabhome_btntextcolor"
-            android:textSize="14dp" />
+            android:textSize="12dp" />
 
         <RadioButton
             android:id="@+id/shop"
@@ -59,7 +59,7 @@
             android:gravity="center"
             android:text="购物车"
             android:textColor="@color/tabhome_btntextcolor"
-            android:textSize="14dp" />
+            android:textSize="12dp" />
 
         <RadioButton
             android:id="@+id/cent"
@@ -72,7 +72,7 @@
             android:gravity="center"
             android:text="设置"
             android:textColor="@color/tabhome_btntextcolor"
-            android:textSize="14dp" />
+            android:textSize="12dp" />
     </RadioGroup>
 
     <View

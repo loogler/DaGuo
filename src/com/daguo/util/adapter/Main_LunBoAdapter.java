@@ -1,11 +1,6 @@
 package com.daguo.util.adapter;
 
 import java.util.List;
-import java.util.zip.Inflater;
-
-import com.daguo.R;
-import com.daguo.ui.main.Main_1Aty;
-import com.daguo.util.beans.Main_1Lunbo;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import com.daguo.R;
+import com.daguo.util.beans.Main_1Lunbo;
 
 public class Main_LunBoAdapter extends BaseAdapter {
 	private Context context;

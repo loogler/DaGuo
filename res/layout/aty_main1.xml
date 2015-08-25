@@ -6,8 +6,9 @@
     <!-- 头部 -->
 
     <LinearLayout
+        android:id="@+id/zzzz"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:background="@color/green_home"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
@@ -38,7 +39,7 @@
             android:gravity="center"
             android:text="大果校园"
             android:textColor="@color/white"
-            android:textSize="36px" />
+            android:textSize="25sp" />
 
         <RelativeLayout
             android:id="@+id/rl1"
@@ -113,6 +114,7 @@
                         android:layout_marginLeft="5dp"
                         android:button="@drawable/btn_radio_holo_light1"
                         android:clickable="false" />
+                    
                 </RadioGroup>
             </RelativeLayout>
             <!-- 以上轮播广告    下面通知 -->
@@ -121,22 +123,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="10dp" >
+                android:background="@drawable/shape_tabhome_advertise"
+                android:padding="5dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/tabhome_gg"
                     android:text=" 通知 :  "
+                    android:gravity="center_vertical"
                     android:textColor="@color/green_home"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_news"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="好消息，新一波大降价"
-                    android:textSize="14sp" />
+                    android:text="恭喜你被大果校园录取，欢迎来到新校园。"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <View
@@ -146,48 +150,354 @@
 
             <!-- 以上通知  如下功能按钮 -->
 
-            <include
-                android:id="@+id/functionBtn"
-                layout="@layout/include_tab1_btn" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp" >
+
+                <LinearLayout
+                    android:id="@+id/ll1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/tabhome_btnfunction_1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="课表服务"
+                        android:textColor="#555"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/tabhome_btnfunction_2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="校园社团"
+                        android:textColor="#555"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/tabhome_btnfunction_3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="校园超市"
+                        android:textColor="#555"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/tabhome_btnfunction_4" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="聚惠达人"
+                        android:textColor="#555"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp" >
+
+                <LinearLayout
+                    android:id="@+id/ll5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/tabhome_btnfunction_5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="校园广场"
+                        android:textColor="#555"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/tabhome_btnfunction_6" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="校外世界"
+                        android:textColor="#555"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/tabhome_btnfunction_7" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="校园新鲜事"
+                        android:textColor="#555"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/tabhome_btnfunction_8" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="移动生活"
+                        android:textColor="#555"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <!-- 以上功能按钮，下面是横排广告 -->
 
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView1"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white" >
+                android:orientation="horizontal"
+                android:padding="1dp" >
+
+                <ImageView
+                    android:id="@+id/iv_pic1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/tabhome_pic1" />
+
+                <ImageView
+                    android:id="@+id/iv_pic2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/tabhome_pic2" />
+
+                <ImageView
+                    android:id="@+id/iv_pic3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/tabhome_pic3" />
+            </LinearLayout>
+
+            <!-- 上面是竖排广告，下面是活动 -->
+            
+            
+            <LinearLayout
+                android:id="@+id/ll_bottom2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape_tabhome_advertise"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="移动携手大果校园送好礼"
+                    android:textColor="@color/green_home"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/lightgrey" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="领取你的新卡，好礼相送"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal" >
 
-                    <com.daguo.util.base.NoScrollGridView
-                        android:id="@+id/grid"
-                        android:layout_width="fill_parent"
+                    <TextView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:horizontalSpacing="5dp"
-                        android:numColumns="auto_fit"
-                        android:stretchMode="columnWidth"
-                        android:verticalSpacing="1dp" />
+                        android:layout_weight="1"
+                        android:maxLines="4"
+                        android:paddingLeft="5dp"
+                        android:text="亲爱的同学，辛苦了。为庆祝你来到新校园，新的城市里生活。领取你新卡后，我们会赠送各种小礼物，希望你能喜欢这里！" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/tabhome_bottom_2" />
                 </LinearLayout>
-            </HorizontalScrollView>
+            </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_bottom1"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape_tabhome_advertise"
                 android:orientation="vertical" >
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/vp_guanggao"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-                </android.support.v4.view.ViewPager>
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="我的大学新宿舍"
+                    android:textColor="@color/green_home"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/lightgrey" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="校园宿舍怎么装扮好看"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:maxLines="4"
+                        android:paddingLeft="5dp"
+                        android:text="9月，又到了一年一度的大学新生入学季，那个将伴随你大学生活四年的大学寝室该如何装扮?大学校的宿舍都是按照一个标准建造的，可谓是千篇一律，那么何将自己的宿舍变得与众不同、个性十足还有家的温暖呢?大刀阔斧的砸墙改造是不可能的，但是花点小钱用在软装装扮上或许会有意想不到的收获。" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/tabhome_bottom_1" />
+                </LinearLayout>
             </LinearLayout>
+            <!-- dfsdfsf -->
+
+            
         </LinearLayout>
     </ScrollView>
+
+    
 
 </LinearLayout>

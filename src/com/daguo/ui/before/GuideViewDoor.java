@@ -12,7 +12,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import com.daguo.R;
-import com.daguo.ui.main.MainActivity;
 
 /**
  * 
@@ -70,8 +69,9 @@ public class GuideViewDoor extends Activity {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
+				//竟然能加载到这里   ，说明第一次加载
 				Intent intent = new Intent(GuideViewDoor.this,
-						MainActivity.class);
+						MainLoginAty.class);
 				startActivity(intent);
 				GuideViewDoor.this.finish();
 			}

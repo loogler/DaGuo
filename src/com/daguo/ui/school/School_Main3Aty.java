@@ -1,9 +1,9 @@
 package com.daguo.ui.school;
 
-import com.daguo.R;
-
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.daguo.R;
 
 public class School_Main3Aty extends Activity{
 	@Override

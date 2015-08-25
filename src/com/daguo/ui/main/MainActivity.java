@@ -1,22 +1,42 @@
 package com.daguo.ui.main;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LocalActivityManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.daguo.R;
+import com.daguo.utils.HttpUtil;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 @SuppressWarnings("deprecation")
 /**
@@ -26,14 +46,13 @@ import com.daguo.R;
  */
 public class MainActivity extends Activity {
 
-
-
 	private int index = 1;// 当前页卡编号
 	private ViewPager viewPage;// 页卡内容
 	private List<View> listViews;// Tab页面列表
 	private RadioGroup radioGroup;// 底部栏
 	private LocalActivityManager manager = null;
 	private MyPagerAdapter mpAdapter = null;
+	boolean isNew, isUp;
 
 	@Override
 	protected void onStart() {
@@ -61,6 +80,7 @@ public class MainActivity extends Activity {
 	protected void onPause() {
 		Log.i("", "onPause()");
 		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 
 	@Override
@@ -78,7 +98,8 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+		MobclickAgent.onResume(this);
+
 		if (getIntent() != null) {
 			// 这个才是默认页面的决定因素
 			index = getIntent().getIntExtra("index", 0);
@@ -104,6 +125,15 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		MobclickAgent.setSessionContinueMillis(30000);
+		UmengUpdateAgent.setDefault();
+//		PushAgent mPushAgent = PushAgent.getInstance(MainActivity.this);
+//		mPushAgent.enable();
+//		String device_token = UmengRegistrar.getRegistrationId(MainActivity.this);
+//		Log.i("device_token", device_token);
+		
+		PushManager.startWork(getApplicationContext(),PushConstants.LOGIN_TYPE_API_KEY,"AdIscyAlmlAHQxB83IfNoFIl");
 		radioGroup = (RadioGroup) findViewById(R.id.rdg);
 		viewPage = (ViewPager) findViewById(R.id.vPager);
 		manager = new LocalActivityManager(this, true);
@@ -163,6 +193,13 @@ public class MainActivity extends Activity {
 						}
 					}
 				});
+
+		try {
+			isUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -188,7 +225,7 @@ public class MainActivity extends Activity {
 		viewPage.setAdapter(mpAdapter);
 
 		viewPage.setCurrentItem(0);
-//		viewPage.setOnPageChangeListener(new MyOnPageChangeListener());
+		// viewPage.setOnPageChangeListener(new MyOnPageChangeListener());
 
 	}
 
@@ -203,7 +240,7 @@ public class MainActivity extends Activity {
 		return manager.startActivity(id, intent).getDecorView();
 	}
 
-	/*****************************split line**********************************/
+	/***************************** split line **********************************/
 	/**
 	 * 
 	 * @author Bugs_rabbit
@@ -314,6 +351,138 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	private long exitTime = 0;
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
+
+			// 如果此前没有按back键，不退出
+			if (System.currentTimeMillis() - exitTime > 2000) {
+				Toast.makeText(MainActivity.this, "再按一次返回桌面", Toast.LENGTH_LONG)
+						.show();
+				exitTime = System.currentTimeMillis();
+			} else {
+				/*
+				 * //退出程序的方法 finish(); System.exit(0);
+				 */
+
+				// 返回桌面的方法，相当于按一次HOME
+				Intent home = new Intent(Intent.ACTION_MAIN);
+				home.addCategory(Intent.CATEGORY_HOME);
+				startActivity(home);
+
+			}
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
+
+	}
+
+	// boolean isUpdate;
+
+	/**
+	 * 菜单按钮中用到的isUpdate方法
+	 * */
+
+	public void isUpdate() throws NameNotFoundException {
+
+		String res = null;
+		PackageManager packageManager = this.getPackageManager();
+		try {
+			PackageInfo packageInfo = packageManager.getPackageInfo(
+					this.getPackageName(), 0);
+			try {
+				String url = HttpUtil.UPDATE;
+				// +"&"+ packageInfo.versionName;
+				res = HttpUtil.getRequest(url);
+				JSONObject js = new JSONObject(res);
+				Double vc = js.getDouble("version");
+				Double va = Double.parseDouble(packageInfo.versionName);
+
+				if (vc > va) {
+					isNew = true;
+				} else if (vc <= va) {
+					isNew = false;
+				} else {
+					Log.e("更新信息获取失败", "版本获取异常");
+				}
+
+				Log.d("url", url);
+				Log.d("res", res);
+			} catch (Exception e) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+
+						Toast.makeText(MainActivity.this, "服务器 异常，请稍后再试！",
+								Toast.LENGTH_LONG).show();
+					}
+				});
+				e.printStackTrace();
+			}
+
+			SharedPreferences sharedPreferences = getSharedPreferences(
+					"userInfo", Context.MODE_PRIVATE);
+			Editor editor = sharedPreferences.edit();
+			editor.putBoolean("ischeck", true);
+			editor.putString("checkdate", new SimpleDateFormat("yyyy-MM-dd")
+					.format(new Date(System.currentTimeMillis())));
+			editor.commit();
+			// return isNew;
+
+		} catch (Exception e) {
+
+		}
+		isUp = isNew;
+		upDate();
+	}
+
+	void upDate() {
+		try {
+			if (isNew) {
+
+				new AlertDialog.Builder(MainActivity.this)
+						.setTitle("升级提示")
+						.setMessage("下载最新APP，体验最新功能")
+						.setPositiveButton("确定",
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface arg0,
+											int arg1) {
+										isUp = false;
+										String url = HttpUtil.DOWNLOAD;
+										Intent intent = new Intent(
+												Intent.ACTION_VIEW);
+										intent.setData(Uri.parse(url));
+										startActivity(intent);
+									}
+								})
+						.setOnCancelListener(
+								new DialogInterface.OnCancelListener() {
+
+									@Override
+									public void onCancel(DialogInterface arg0) {
+										isUp = false;
+										String url = HttpUtil.DOWNLOAD;
+										Intent intent = new Intent(
+												Intent.ACTION_VIEW);
+										intent.setData(Uri.parse(url));
+										startActivity(intent);
+									}
+								})
+						// .setNegativeButton("取消", null)
+						.create().show();
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 }

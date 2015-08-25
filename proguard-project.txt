@@ -19,5 +19,34 @@
 #   public *;
 #-keep class com.example.fm_surface_sdk_3_lib_test.R{*;}
 #-keep class com.example.fm_surface_sdk_3_lib_test.R$*{*;}
+#-dontwarn com.umeng.**
+#-dontwarn com.umeng.message.**
+-keep class com.umeng.message.* {
+        public <fields>;
+        public <methods>;
+}
+
+-keep class com.umeng.message.protobuffer. * {
+        public <fields>;
+        public <methods>;
+}
+
+-keep class com.squareup.wire.* {
+        public <fields>;
+        public <methods>;
+}
+
+-keep class org.android.agoo.impl.*{
+        public <fields>;
+        public <methods>;
+}
+
+-keep class org.android.agoo.service.* {*;}
+
+-keep class org.android.spdy.**{*;}
+
+-keep public class com.daguo.R$*{
+    public static final int *;
+}
 
 #}

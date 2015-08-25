@@ -1,9 +1,9 @@
 package com.daguo.ui.main;
 
-import com.daguo.R;
-
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.daguo.R;
 
 public class Main_3Aty extends Activity{
 	@Override
