@@ -1,32 +1,15 @@
 package com.daguo.ui.settings;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-
-import org.json.JSONObject;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daguo.R;
-import com.daguo.ui.main.MainActivity;
-import com.daguo.utils.HttpUtil;
 
 public class Setting_AboutAty extends Activity implements OnClickListener {
 	private RelativeLayout gengxin, tuandui, jianjie;

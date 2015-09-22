@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import net.tsz.afinal.FinalBitmap;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daguo.R;
+import com.daguo.ui.commercial.Shop_GoodsDetailAty;
+import com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty;
+import com.daguo.ui.school.shuoshuo.SC_ShuoShuo_EvaluationAty;
+import com.daguo.util.base.CircularImage;
 import com.daguo.util.beans.ShuoShuoContent;
 import com.daguo.utils.HttpUtil;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class SC_ShuoShuoAdapter extends BaseAdapter {
 	@SuppressLint("SimpleDateFormat")
@@ -27,63 +32,71 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 	@SuppressLint("SimpleDateFormat")
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private FinalBitmap finalBit;
+	String[] urls;
 
 	public SC_ShuoShuoAdapter(Context context, List<ShuoShuoContent> infos) {
 		this.context = context;
 		this.infos = infos;
 		inflater = LayoutInflater.from(context);
+		finalBit = FinalBitmap.create(context);
 	}
 
 	@Override
 	public int getCount() {
-		return infos.size();
+		return infos == null ? 0 : infos.size();
 	}
 
 	@Override
-	public Object getItem(int arg0) {
-		return infos.get(arg0);
+	public Object getItem(int position) {
+		return infos == null ? null : infos.get(position);
 	}
 
 	@Override
 	public long getItemId(int arg0) {
 		return arg0;
+
 	}
 
 	@Override
-	public View getView(int position, View view, ViewGroup parent) {
+	public View getView(final int position, View view, ViewGroup parent) {
 		ViewHoldler holdler = null;
-		if (view == null) {
-			view = inflater.inflate(R.layout.item_sc_shuoshuoadapter, null);
-			holdler = getHolder(view);
-			view.setTag(holdler);
+		// if (view == null) {
+		view = inflater.inflate(R.layout.item_sc_shuoshuoadapter, null);
+		holdler = getHolder(view);
+		view.setTag(holdler);
 
-		} else {
-			holdler = (ViewHoldler) view.getTag();
-		}
+		// } else {
+		// holdler = (ViewHoldler) view.getTag();
+		// 视图复用实在不知道大牛们怎么写的 我一写就异常 为什么
+
+		// }
 
 		if (infos != null) {
 
 			info = infos.get(position);
 			holdler.content.setText(info.getContent());
 			holdler.name.setText(info.getP_name());
-			// holdler.photo.setImageDrawable(info.getP_photo());
 			holdler.pinglun.setText("评论(" + info.getFeedback_count() + ")");
 			holdler.time.setText(handTime(info.getCreatTime()));
 			holdler.zan.setText("赞(" + info.getGood_count() + ")");
-			// holdler.img_content.setImageDrawable(info.getImg_path());
 
-			if (info.getP_photo() != null && !info.getP_photo().equals("")) {
+			if (!isEmpty(info.getP_photo())) {
 
-				ImageLoader.getInstance().displayImage(
-						HttpUtil.IMG_URL + info.getP_photo(), holdler.photo);
+				finalBit.display(holdler.photo,
+						HttpUtil.IMG_URL + info.getP_photo());
 			} else {
 				holdler.photo.setImageResource(R.drawable.user_logo);
 			}
-			if (info.getImg_path() != null && !info.getImg_path().equals("")) {
+			if (!isEmpty(info.getImg_path())) {
 
-				ImageLoader.getInstance().displayImage(
-						HttpUtil.IMG_URL + info.getImg_path(),
-						holdler.img_content);
+				// ImageLoader.getInstance().displayImage(
+				// HttpUtil.IMG_URL + info.getImg_path(),
+				// holdler.img_content);
+				finalBit.display(holdler.img_content,
+						HttpUtil.IMG_URL + info.getImg_path());
+				
+
 			} else {
 				holdler.img_content.setVisibility(View.GONE);
 			}
@@ -92,17 +105,49 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 			// no !
 		}
 
+		view.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				//
+				Intent intent = new Intent(context,
+						SC_ShuoShuo_EvaluationAty.class);
+				String id = infos.get(position).getId();
+				intent.putExtra("id", id);
+				intent.putExtra("good_count", infos.get(position)
+						.getGood_count());
+				intent.putExtra("feedback_count", infos.get(position)
+						.getFeedback_count());
+				intent.putExtra("content", infos.get(position).getContent());
+				intent.putExtra("time", infos.get(position).getCreatTime());
+				intent.putExtra("img_path", infos.get(position).getImg_path());
+				intent.putExtra("p_name", infos.get(position).getP_name());
+				intent.putExtra("p_avator", infos.get(position).getP_photo());
+				context.startActivity(intent);
+			}
+		});
+		holdler.img_content
+		.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				String[] urls = new String[] { infos.get(position)
+						.getImg_path() };
+
+				imageBrower(0, urls);
+			}
+		});
 		return view;
 	}
 
 	class ViewHoldler {
-		ImageView photo;
+		CircularImage photo;
 		TextView name;
 		TextView content;
 		TextView time;
 		TextView zan;
 		TextView pinglun;
-//		ImageButton caozuo;
+		// ImageButton caozuo;
 		ImageView img_content;
 
 	}
@@ -111,11 +156,11 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 		ViewHoldler holdler = new ViewHoldler();
 		holdler.content = (TextView) view.findViewById(R.id.content_text);
 		holdler.name = (TextView) view.findViewById(R.id.name);
-		holdler.photo = (ImageView) view.findViewById(R.id.photo);
+		holdler.photo = (CircularImage) view.findViewById(R.id.photo);
 		holdler.pinglun = (TextView) view.findViewById(R.id.pinglun_name);
 		holdler.time = (TextView) view.findViewById(R.id.date);
 		holdler.zan = (TextView) view.findViewById(R.id.favuor_name);
-//		holdler.caozuo = (ImageButton) view.findViewById(R.id.reply_content);
+		// holdler.caozuo = (ImageButton) view.findViewById(R.id.reply_content);
 		holdler.img_content = (ImageView) view.findViewById(R.id.image_content);
 		return holdler;
 	}
@@ -150,6 +195,39 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/**
+	 * 判断指定的字符串是否是 正确的（不为“”、null 、“null”）
+	 * 
+	 * @param str
+	 * @return
+	 */
+	private boolean isEmpty(String str) {
+		if (str != null && !str.equals("") && !str.equals("null")
+				&& !str.equals("[]")) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param position
+	 * @param urls
+	 */
+	private void imageBrower(int position, String[] urls) {
+		Intent intent = new Intent(context,
+				com.daguo.modem.photo.ImagePagerActivity.class);
+		// 图片url,为了演示这里使用常量，一般从数据库中或网络中获取
+		intent.putExtra(
+				com.daguo.modem.photo.ImagePagerActivity.EXTRA_IMAGE_URLS, urls);
+		intent.putExtra(
+				com.daguo.modem.photo.ImagePagerActivity.EXTRA_IMAGE_INDEX,
+				position);
+		context.startActivity(intent);
 	}
 
 }

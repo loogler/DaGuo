@@ -12,6 +12,7 @@ public class Type {
 	private String type_name;//字典分类名称
 	private String goods_desc;//商品详情
 	private String thumb_path;//展示图 单个
+	private String img_src;//商品的详情图片
 	public String getId() {
 		return id;
 	}
@@ -65,6 +66,12 @@ public class Type {
 	}
 	public void setThumb_path(String thumb_path) {
 		this.thumb_path = thumb_path;
+	}
+	public String getImg_src() {
+		return img_src;
+	}
+	public void setImg_src(String img_src) {
+		this.img_src = img_src;
 	}
 	
 }

@@ -50,14 +50,14 @@ public class BroadBandOrderAty extends Activity implements
 		android.view.View.OnClickListener {
 	private String tag = "BroadBandOrderAty";
 	private String p_id, p_name;
-	private LineEditText nameEditText, idEditText, telEditText,
+	private LineEditText nameEditText, idEditText, telEditText,guidEditText,
 			logisticsEditText;
 	private Button uploadBtn, submitBtn;
 
 	private CheckBox checkBox;
 	private TextView xieyi;
 	public static String ordername, ordershenfenzheng, ordertel,
-			orderlogistics, orderimgSrc;
+			orderlogistics, orderimgSrc,orderguide;
 	/**
 	 * 订单id
 	 */
@@ -87,6 +87,7 @@ public class BroadBandOrderAty extends Activity implements
 		p_id = sp.getString("id", "");
 		p_name = sp.getString("name", "");
 
+		guidEditText=(LineEditText) findViewById(R.id.guideEdit);
 		nameEditText = (LineEditText) findViewById(R.id.nameEdit);
 		idEditText = (LineEditText) findViewById(R.id.idEdit);
 		telEditText = (LineEditText) findViewById(R.id.telEdit);
@@ -120,6 +121,7 @@ public class BroadBandOrderAty extends Activity implements
 			ordershenfenzheng = idEditText.getText().toString().trim();
 			ordertel = telEditText.getText().toString().trim();
 			orderlogistics = logisticsEditText.getText().toString().trim();
+			orderguide=guidEditText.getText().toString().trim();
 			if (ordername != null && !ordername.equals("")
 					&& ordershenfenzheng != null
 					&& !ordershenfenzheng.equals("") && ordertel != null
@@ -146,8 +148,6 @@ public class BroadBandOrderAty extends Activity implements
 											}
 										}).create().show();
 					}
-
-				
 
 				} else {
 					new AlertDialog.Builder(BroadBandOrderAty.this)
@@ -209,6 +209,7 @@ public class BroadBandOrderAty extends Activity implements
 		if (i == 1) {
 			return dateFormat.format(date) + "_crop.JPEG";
 		} else {
+
 			return dateFormat.format(date) + ".JPEG";
 		}
 	}
@@ -220,7 +221,7 @@ public class BroadBandOrderAty extends Activity implements
 		Log.i(tag, "void onActivityResult拍照/选照片");
 		switch (requestCode) {
 		case PHOTO_REQUEST_TAKEPHOTO:// 当选择拍照时调用
-			if (data != null)
+//			if (data != null)
 				startPhotoZoom(Uri.fromFile(tempFile), 300);
 			break;
 
@@ -273,8 +274,8 @@ public class BroadBandOrderAty extends Activity implements
 		isPicChange = true;
 		Log.i(tag, "setPicToView显示至ui");
 
-		Toast.makeText(getApplicationContext(), "照片已提交，审核通过后才可以显示！",
-				Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "照片已提交！", Toast.LENGTH_LONG)
+				.show();
 		;
 	}
 
@@ -358,7 +359,7 @@ public class BroadBandOrderAty extends Activity implements
 						map.put("broadband_id", BroadBandAty.broadbandid);
 						map.put("address", orderlogistics);
 						map.put("order_id_card_copy", orderimgSrc);
-
+						map.put("person_num", orderguide);
 						String resString1 = HttpUtil.postRequest(url1, map);
 						if (resString1 != null && !resString1.equals("")) {
 

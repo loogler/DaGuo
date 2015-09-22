@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="green_home">#4fc15f</color>
+    <color name="green_home">#56bf02</color>
     <color name="green_press">#38b164</color>
     <color name="white">#FFF</color>
     <color name="black">#000</color>
@@ -9,10 +9,13 @@
     <color name="lightgrey">#e5e5e5</color>
     <color name="red_white">#FFE7BA</color>
     <color name="grey_1">#ddd</color>
+    <color name="grey_2">#aaa</color>
+    <color name="grey_line">#def</color>
     <color name="title">#5b4120</color>
     <color name="text">#595959</color>
     <color name="red">#cc3333</color>
     <color name="red_1">#ff0000</color>
+   
     <color name="blue">#0000ff</color>
      <color name="purple">#CC3366</color>
 

@@ -115,12 +115,34 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="配送地址："
+                android:text="安装地址："
                 android:textColor="@color/green_home"
                 android:textSize="15sp" />
 
             <com.daguo.util.base.LineEditText
                 android:id="@+id/logisticsEdit"
+                style="?android:attr/textViewStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textColor="@null" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="引导员编号："
+                android:textColor="@color/green_home"
+                android:textSize="15sp" />
+
+            <com.daguo.util.base.LineEditText
+                android:id="@+id/guideEdit"
                 style="?android:attr/textViewStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

@@ -1,42 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_operation_type"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:descendantFocusability="blocksDescendants" >
 
-    <ImageView
-        android:id="@+id/photo"
-        android:layout_width="40dip"
-        android:layout_height="40dip"
-        android:background="@drawable/user_logo" />
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/user_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/photo"
         android:layout_marginLeft="5dip"
-        android:layout_toRightOf="@id/photo"
-        android:orientation="horizontal" >
+        android:padding="8dp" >
+
+        <com.daguo.util.base.CircularImage
+            android:id="@+id/photo"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+             >
+        </com.daguo.util.base.CircularImage>
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/photo"
             android:paddingRight="5dip"
             android:text="赵云"
             android:textColor="#697fb1"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/share_type"
+            android:id="@+id/schoolname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="分享了一段文字"
+            android:layout_alignBottom="@+id/iv"
+            android:layout_toRightOf="@+id/photo"
+            android:text="安徽大学"
             android:textColor="@color/grey_1"
             android:visibility="gone" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/content"
@@ -45,7 +48,7 @@
         android:layout_below="@id/user_info"
         android:layout_marginLeft="5dip"
         android:layout_marginRight="10dip"
-        android:layout_toRightOf="@id/photo"
+        android:background="@drawable/detail"
         android:orientation="vertical" >
 
         <!-- 文字内容 -->
@@ -65,9 +68,10 @@
         </LinearLayout>
 
         <ImageView
+            android:clickable="true"
             android:id="@+id/image_content"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginLeft="5dp"
             android:gravity="center"
             android:src="@drawable/avatar_default" />
@@ -75,8 +79,7 @@
         <RelativeLayout
             android:id="@+id/reply_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/detail" >
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/date"
@@ -98,13 +101,15 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:visibility="gone"
+                    
                     android:id="@+id/favuor_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:drawableLeft="@drawable/s_msg_icon_praise"
+                    android:drawableLeft="@drawable/sc_shuoshuo_zan"
                     android:gravity="end"
-                    android:text="点赞(100)"
+                    android:text="99"
                     android:textColor="#697fb1"
                     android:textSize="14sp" />
 
@@ -112,8 +117,9 @@
                     android:id="@+id/pinglun_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/sc_shuoshuo_pinglun"
                     android:gravity="center_vertical"
-                    android:text="评论数(999)"
+                    android:text="999"
                     android:textColor="#697fb1"
                     android:textSize="14sp" />
 

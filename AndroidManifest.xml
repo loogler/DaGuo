@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.daguo"
     android:versionCode="1"
-    android:versionName="1.27" >
+    android:versionName="1.28" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -101,6 +101,8 @@
         <activity android:name="com.daguo.modem.adress.PersonAddress" />
         <activity android:name="com.daguo.modem.choujiang.ChouJiangAty" >
         </activity>
+        <activity android:name="com.daguo.modem.choujiang.ChouJiangConsoleAty" >
+        </activity>
 
         <!-- com.daguo.ui.before. 登录前相关的准备事项 -->
 
@@ -122,8 +124,13 @@
         <activity android:name="com.daguo.ui.commercial.Shop_OrderAty" >
         </activity>
         <!-- 学校活动的部分包括新闻之类的所有 -->
-        <activity android:name="com.daguo.ui.event.AwardsAty" >
+        <activity android:name="com.daguo.ui.event.Event_AwardsAty" >
         </activity>
+        <activity android:name="com.daguo.ui.event.Event_NewsAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.event.Event_News_DetailAty" >
+        </activity>
+        
 
         <!-- com.daguo.ui.main.  登录主页部分的界面 -->
         <activity android:name="com.daguo.ui.main.MainActivity" >
@@ -164,6 +171,8 @@
         <activity android:name="com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty" >
         </activity>
         <activity android:name="com.daguo.ui.school.shuoshuo.SC_ShuoShuo_WriteAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.school.shuoshuo.SC_ShuoShuo_EvaluationAty" >
         </activity>
         <!-- com.daguo.ui.settings -->
         <activity android:name="com.daguo.ui.settings.Setting_AboutAty" >

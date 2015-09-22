@@ -238,7 +238,7 @@ public class MainLoginAty extends Activity {
 									editor.putString("tel", tel);
 									editor.putString("school_id",
 											school_idString);
-									editor.putString("pro_name", pro_name);
+									editor.putString("pro_name", pro_name);//专业名臣
 									editor.putString("birthday", birthday);
 									editor.putString("sex", sex);
 									editor.putString("head_info", head_info);

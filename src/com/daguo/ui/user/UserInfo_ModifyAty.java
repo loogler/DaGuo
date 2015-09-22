@@ -12,6 +12,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -20,7 +21,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,7 +46,6 @@ import android.widget.Toast;
 
 import com.daguo.R;
 import com.daguo.util.base.PullScrollView;
-import com.daguo.utils.AsyncImageLoader2;
 import com.daguo.utils.HttpUtil;
 import com.daguo.utils.UploadUtil;
 import com.daguo.view.dialog.CustomProgressDialog;
@@ -85,6 +87,7 @@ public class UserInfo_ModifyAty extends Activity implements
 	 */
 	private TextView topNickTextView, topDepartmentTextView, topSchoolTextView;// 顶部
 	private ImageView userAvatorImageView;
+	private TextView idCheckTextView, stuCheckTextView;
 	/**
 	 * 资料修改
 	 */
@@ -125,7 +128,7 @@ public class UserInfo_ModifyAty extends Activity implements
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 0:
-				if (name != null) {
+				if (infoCheck(name)) {
 					tv_nick.setText(name);
 					topNickTextView.setText(name);
 
@@ -133,7 +136,7 @@ public class UserInfo_ModifyAty extends Activity implements
 					tv_nick.setText("");
 					topNickTextView.setText("");
 				}
-				if (sex != null) {
+				if (infoCheck(sex)) {
 					if (Integer.parseInt(sex) == 0) {
 						tv_sex.setText("男");
 					} else if (Integer.parseInt(sex) == 1) {
@@ -143,14 +146,14 @@ public class UserInfo_ModifyAty extends Activity implements
 				} else {
 					tv_sex.setText("");
 				}
-				if (birthday != null) {
+				if (infoCheck(birthday)) {
 
 					tv_birthyear.setText(birthday);
 				} else {
 					tv_birthyear.setText("");
 				}
 
-				if (department != null) {
+				if (infoCheck(department)) {
 					tv_department.setText(department);
 					topDepartmentTextView.setText(department);
 
@@ -158,13 +161,13 @@ public class UserInfo_ModifyAty extends Activity implements
 					topDepartmentTextView.setText("");
 					tv_department.setText("");
 				}
-				if (idcard != null) {
+				if (infoCheck(idcard)) {
 
 					tv_idcard.setText(idcard);
 				} else {
 					tv_idcard.setText("");
 				}
-				if (school != null) {
+				if (infoCheck(school)) {
 					topSchoolTextView.setText(school);
 					tv_school.setText(school);
 
@@ -172,14 +175,14 @@ public class UserInfo_ModifyAty extends Activity implements
 					tv_school.setText("");
 					topSchoolTextView.setText("");
 				}
-				if (schoolyear != null) {
+				if (infoCheck(schoolyear)) {
 
 					tv_schoolyear.setText(schoolyear);
 				} else {
 
 					tv_schoolyear.setText("");
 				}
-				if (imgsrc != null) {
+				if (infoCheck(imgsrc)) {
 					// loadImage(imgsrc, R.id.user_avatar);
 					ImageLoader.getInstance().displayImage(
 							HttpUtil.IMG_URL + imgsrc, userAvatorImageView);
@@ -194,12 +197,12 @@ public class UserInfo_ModifyAty extends Activity implements
 								msg.obj.toString());
 						String imgSRC = jsonObject1
 								.getString("fileRelativePath");
-						if (isIdCopy && imgSRC != null) {
+						if (isIdCopy && infoCheck(imgSRC)) {
 							idcardCopy = imgSRC;
 
-						} else if (isSchoolCopy && imgSRC != null) {
+						} else if (isSchoolCopy && infoCheck(imgSRC)) {
 							schoolcardCopy = imgSRC;
-						} else if (isHeadCopy && imgSRC != null) {
+						} else if (isHeadCopy && infoCheck(imgSRC)) {
 							imgsrc = imgSRC;
 						} else {
 							// 都没动
@@ -260,60 +263,60 @@ public class UserInfo_ModifyAty extends Activity implements
 							"birthday");
 					String img = array.optJSONObject(0).getString("head_info");
 
-					if (namesss != null) {
+					if (infoCheck(namesss)) {
 						name = namesss;
 					} else {
 						name = "";
 					}
-					if (sexsss != null) {
+					if (infoCheck(sexsss)) {
 						sex = sexsss;
 					} else {
 						sex = "";
 					}
-					if (schoolsss != null) {
+					if (infoCheck(schoolsss)) {
 						school = schoolsss;
 					} else {
 						school = "";
 					}
-					if (departmentsss != null) {
+					if (infoCheck(departmentsss)) {
 						department = departmentsss;
 					} else {
 						department = "";
 					}
-					if (idcardsss != null) {
+					if (infoCheck(idcardsss)) {
 						idcard = idcardsss;
 					} else {
 						idcard = "";
 					}
-					if (addresssss != null) {
+					if (infoCheck(addresssss)) {
 						address = addresssss;
 					} else {
 						address = "";
 					}
-					if (schoolyearsss != null) {
+					if (infoCheck(schoolyearsss)) {
 						schoolyear = schoolyearsss;
 
 					} else {
 						schoolyear = "";
 					}
-					if (idcardCopysss != null) {
+					if (infoCheck(idcardCopysss)) {
 						idcardCopy = idcardCopysss;
 
 					} else {
 						idcardCopy = "";
 					}
-					if (schoolcardCopysss != null) {
+					if (infoCheck(schoolcardCopysss)) {
 						schoolcardCopy = schoolcardCopysss;
 
 					} else {
 						schoolcardCopy = "";
 					}
-					if (birthdaysss != null) {
+					if (infoCheck(birthdaysss)) {
 						birthday = birthdaysss;
 					} else {
 						birthday = "";
 					}
-					if (img!= null) {
+					if (infoCheck(img)) {
 						imgsrc = img;
 					} else {
 						imgsrc = "";
@@ -358,6 +361,24 @@ public class UserInfo_ModifyAty extends Activity implements
 				String res = HttpUtil.postRequest(url, map);
 				if (res != null) {
 					// success
+
+					SharedPreferences sp = getSharedPreferences("userinfo",
+							Context.MODE_WORLD_READABLE);
+					Editor ed = sp.edit();
+
+					ed.putString("name", name);
+					ed.putString("head_info", imgsrc);
+					ed.putString("sex", sex);
+					ed.putString("school_name", school);
+					ed.putString("pro_name", department);
+					ed.putString("id_card", idcard);
+					ed.putString("address", address);
+					ed.putString("start_year", schoolyear);
+					ed.putString("birthday", birthday);
+					ed.putString("stu_card_copy", schoolcardCopy);
+					ed.putString("id_card_copy", idcardCopy);
+
+					ed.commit();
 					runOnUiThread(new Runnable() {
 						public void run() {
 							dialog.dismiss();
@@ -395,6 +416,8 @@ public class UserInfo_ModifyAty extends Activity implements
 		topSchoolTextView = (TextView) findViewById(R.id.topschool);
 		userAvatorImageView = (ImageView) findViewById(R.id.user_avatar);
 
+		idCheckTextView = (TextView) findViewById(R.id.idcheck);
+		stuCheckTextView = (TextView) findViewById(R.id.stucheck);
 		tv_nick = (TextView) findViewById(R.id.changeinfo_txt_nickname);
 		tv_sex = (TextView) findViewById(R.id.changeinfo_txt_sex);
 		tv_school = (TextView) findViewById(R.id.changeinfo_txt_school);
@@ -416,6 +439,13 @@ public class UserInfo_ModifyAty extends Activity implements
 		rl_idcard = (RelativeLayout) findViewById(R.id.changeinfo_relayout_birthday);
 
 		submitButton = (Button) findViewById(R.id.submit_btn);
+
+		if (infoCheck(idcardCopy)) {
+			idCheckTextView.setText("身份已验证");
+		}
+		if (infoCheck(schoolcardCopy)) {
+			stuCheckTextView.setText("学生证已验证");
+		}
 
 		userAvatorImageView.setOnClickListener(this);
 		rl_department.setOnClickListener(this);
@@ -471,8 +501,9 @@ public class UserInfo_ModifyAty extends Activity implements
 
 		case R.id.changeinfo_relayout_idcheck:
 			// 身份证检查
-			if (idcardCopy != null && idcardCopy.equals("")) {
+			if (infoCheck(idcardCopy)) {
 				// 已存在
+
 				Toast.makeText(UserInfo_ModifyAty.this, "您已验证身份，修改需联系管理员",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -490,8 +521,9 @@ public class UserInfo_ModifyAty extends Activity implements
 			break;
 		case R.id.changeinfo_relayout_stucheck:
 			// 学生证检查
-			if (schoolcardCopy != null && schoolcardCopy.equals("")) {
+			if (infoCheck(schoolcardCopy)) {
 				// 已存在
+
 				Toast.makeText(UserInfo_ModifyAty.this, "您已验证学生证，修改需联系管理员",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -769,6 +801,7 @@ public class UserInfo_ModifyAty extends Activity implements
 	/**
 	 * 获取照片，名称 使用系统当前日期加以调整作为照片的名称
 	 */
+	@SuppressLint("SimpleDateFormat")
 	private String getPhotoFileName(int i) {
 		Log.i(tag, "getPhotoFileName获得照片名称");
 		Date date = new Date(System.currentTimeMillis());
@@ -777,6 +810,7 @@ public class UserInfo_ModifyAty extends Activity implements
 		if (i == 1) {
 			return dateFormat.format(date) + "_crop.JPEG";
 		} else {
+
 			return dateFormat.format(date) + ".JPEG";
 		}
 	}
@@ -787,8 +821,8 @@ public class UserInfo_ModifyAty extends Activity implements
 		Log.i(tag, "void onActivityResult拍照/选照片");
 		switch (requestCode) {
 		case PHOTO_REQUEST_TAKEPHOTO:// 当选择拍照时调用
-			if (data != null)
-				startPhotoZoom(Uri.fromFile(tempFile), 300);
+			// if (data != null)
+			startPhotoZoom(Uri.fromFile(tempFile), 300);
 			break;
 
 		case PHOTO_REQUEST_GALLERY:// 当选择从本地获取图片时
@@ -855,14 +889,16 @@ public class UserInfo_ModifyAty extends Activity implements
 
 	/**** 将进行剪裁后的图片显示到UI界面上 */
 	private void setPicToView(Bitmap bitmap) {
-		// Drawable drawable = new BitmapDrawable(bitmap);
-		// imag_pic.setImageDrawable(drawable);
+		if (isHeadCopy) {
+			 Drawable drawable = new BitmapDrawable(bitmap);
+			 userAvatorImageView.setImageDrawable(drawable);
+			
+		}
 		// picChange = 1;
 		isInfoChange = true;
 		Log.i(tag, "setPicToView显示至ui");
-
-		// Toast.makeText(getApplicationContext(), "照片已提交，审核通过后才可以显示！",
-		// Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "照片已提交！", Toast.LENGTH_LONG)
+				.show();
 		;
 	}
 
@@ -899,6 +935,16 @@ public class UserInfo_ModifyAty extends Activity implements
 		 * fileName = f.getName(); uploadFilePath = f.getPath();
 		 */
 		return f;
+
+	}
+
+	boolean infoCheck(String res) {
+		if (res != null && !res.equals("") && !res.equals("null")) {
+
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 

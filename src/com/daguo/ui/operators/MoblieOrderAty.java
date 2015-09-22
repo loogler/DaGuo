@@ -45,13 +45,13 @@ import com.daguo.view.dialog.MySelf_Mod_Photo;
 
 public class MoblieOrderAty extends Activity implements OnClickListener {
 	String tag = "mobileAty";
-	private String p_id,orderInfoId,p_name;
-	private LineEditText nameEditText, idEditText, telEditText,
+	private String p_id, orderInfoId, p_name;
+	private LineEditText nameEditText, idEditText, telEditText,guidEditText,
 			logisticsEditText;
 	private Button uploadBtn, submitBtn;
 	public static String num_name, num_id, num_tel, num_logistics, num_orderId,
-			imgString;
-	private TextView xieyi ;
+			imgString,orderguide;
+	private TextView xieyi;
 	// 弹出窗
 	MySelf_Mod_Photo menuWindow;
 	// 拍照参数
@@ -74,9 +74,10 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 		SharedPreferences sp = getSharedPreferences("userinfo",
 				Context.MODE_WORLD_READABLE);
 		p_id = sp.getString("id", "");
-		p_name=sp.getString("name", "");
+		p_name = sp.getString("name", "");
 
 		nameEditText = (LineEditText) findViewById(R.id.nameEdit);
+		guidEditText=(LineEditText) findViewById(R.id.guideEdit);
 		idEditText = (LineEditText) findViewById(R.id.idEdit);
 		telEditText = (LineEditText) findViewById(R.id.telEdit);
 		logisticsEditText = (LineEditText) findViewById(R.id.logisticsEdit);
@@ -107,36 +108,36 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 			String tel = telEditText.getText().toString().trim();
 			String logistics = logisticsEditText.getText().toString().trim();
 			
-			
+
 			if (name != null && id != null & tel != null && logistics != null
 					&& isPicChange) {
-				num_name=name;
-				num_id=id;
-				num_tel=tel;
-				num_logistics=logistics;
-				
-				if (p_name!=null &&!p_name.equals("")) {
+				num_name = name;
+				num_id = id;
+				num_tel = tel;
+				num_logistics = logistics;
+				orderguide=guidEditText.getText().toString().trim();
+
+				if (p_name != null && !p_name.equals("")) {
 					new Thread(UploadPhoto).start();
 					// Intent intent = new Intent(MoblieOrderAty.this,
 					// Pay_NumberAty.class);
 					// startActivity(intent);
-					
-				}else {
-					new AlertDialog.Builder(MoblieOrderAty.this)
-					.setMessage("请先完善个人资料")
-					.setPositiveButton("确定",
-							new DialogInterface.OnClickListener() {
 
-								@Override
-								public void onClick(
-										DialogInterface arg0,
-										int arg1) {
-									Intent intent = new Intent(
-											MoblieOrderAty.this,
-											UserInfo_ModifyAty.class);
-									startActivity(intent);
-								}
-							}).create().show();
+				} else {
+					new AlertDialog.Builder(MoblieOrderAty.this)
+							.setMessage("请先完善个人资料")
+							.setPositiveButton("确定",
+									new DialogInterface.OnClickListener() {
+
+										@Override
+										public void onClick(
+												DialogInterface arg0, int arg1) {
+											Intent intent = new Intent(
+													MoblieOrderAty.this,
+													UserInfo_ModifyAty.class);
+											startActivity(intent);
+										}
+									}).create().show();
 				}
 
 			} else {
@@ -167,14 +168,14 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 			startActivityForResult(pickintent, PHOTO_REQUEST_GALLERY);
 			break;
 		case R.id.xieyi:
-		
+
 			// ComponentName componentname = new ComponentName(
 			// BroadBandOrderAty.this, UserAgreementAty.class);
 			Intent intent = new Intent(MoblieOrderAty.this,
 					UserAgreementAty.class);
 			MoblieOrderAty.this.startActivity(intent);
 			// intent.setComponent(componentname);
-		
+
 			break;
 		default:
 			break;
@@ -192,6 +193,7 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 		if (i == 1) {
 			return dateFormat.format(date) + "_crop.JPEG";
 		} else {
+
 			return dateFormat.format(date) + ".JPEG";
 		}
 	}
@@ -202,8 +204,8 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 		Log.i(tag, "void onActivityResult拍照/选照片");
 		switch (requestCode) {
 		case PHOTO_REQUEST_TAKEPHOTO:// 当选择拍照时调用
-			if (data != null)
-				startPhotoZoom(Uri.fromFile(tempFile), 300);
+			// if (data != null)
+			startPhotoZoom(Uri.fromFile(tempFile), 300);
 			break;
 
 		case PHOTO_REQUEST_GALLERY:// 当选择从本地获取图片时
@@ -255,8 +257,8 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 		isPicChange = true;
 		Log.i(tag, "setPicToView显示至ui");
 
-		Toast.makeText(getApplicationContext(), "照片已提交，审核通过后才可以显示！",
-				Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "照片已提交！", Toast.LENGTH_LONG)
+				.show();
 		;
 	}
 
@@ -305,7 +307,7 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 			String request = null;
 			String url = HttpUtil.IMG_URL_SUB;
 			System.out.println("uploadFile--->" + uploadFile.getName());
-//			UploadPhotoUtil up = new UploadPhotoUtil();
+			// UploadPhotoUtil up = new UploadPhotoUtil();
 
 			request = UploadUtil.uploadFile(uploadFile, url);
 			// progressDialog.dismiss();
@@ -327,22 +329,25 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 						String imgSRC = jsonObject1
 								.getString("fileRelativePath");
 						imgString = imgSRC;
-						getOrder(HttpUtil.SUBMIT_ORDER_PUB, p_id, "2", "ba6cb325-65c1-4f53-87a7-bfe67b37adfe");
-//
-//						String url = HttpUtil.SUBMIT_ORDER_PUB;
-//						Map<String, String> map = new HashMap<String, String>();
-//						map.put("p_id", p_id);
-//						map.put("pay_type",
-//								"ba6cb325-65c1-4f53-87a7-bfe67b37adfe");
-//						map.put("status", "0");
-//						map.put("order_type", "1");
-//						map.put("pay_status", "0");
-//
-//						String res = HttpUtil.postRequest(url, map);
-//						JSONObject jsonObject = new JSONObject(res);
-//						String orderDetailId = jsonObject.getJSONObject("obj")
-//								.getString("id");
-//						num_orderId = orderDetailId;
+						getOrder(HttpUtil.SUBMIT_ORDER_PUB, p_id, "2",
+								"ba6cb325-65c1-4f53-87a7-bfe67b37adfe");
+						//
+						// String url = HttpUtil.SUBMIT_ORDER_PUB;
+						// Map<String, String> map = new HashMap<String,
+						// String>();
+						// map.put("p_id", p_id);
+						// map.put("pay_type",
+						// "ba6cb325-65c1-4f53-87a7-bfe67b37adfe");
+						// map.put("status", "0");
+						// map.put("order_type", "1");
+						// map.put("pay_status", "0");
+						//
+						// String res = HttpUtil.postRequest(url, map);
+						// JSONObject jsonObject = new JSONObject(res);
+						// String orderDetailId =
+						// jsonObject.getJSONObject("obj")
+						// .getString("id");
+						// num_orderId = orderDetailId;
 						String url1 = HttpUtil.SUBMIT_NUMBER_DETAIL;
 						Map<String, String> map1 = new HashMap<String, String>();
 						map1.put("order_id", orderInfoId);
@@ -352,9 +357,10 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 						map1.put("order_id_card_copy", imgString);
 						map1.put("address", num_logistics);
 						map1.put("phone_id", MobileAty.num_id);
+						map1.put("person_num", orderguide);
 
 						String res1 = HttpUtil.postRequest(url1, map1);
-//						JSONObject jsObject = new JSONObject(res1);
+						// JSONObject jsObject = new JSONObject(res1);
 
 						if (res1 != null && !res1.equals("")) {
 							// 成功
@@ -391,7 +397,6 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 
 		};
 	};
-	
 
 	/**
 	 * // 生成一个订单，（公用订单），主表
@@ -440,6 +445,5 @@ public class MoblieOrderAty extends Activity implements OnClickListener {
 
 		Log.d(tag, "orderInfoId*****" + orderInfoId);
 	}
-
 
 }

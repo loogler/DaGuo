@@ -48,8 +48,8 @@ public class LuckyPanView extends SurfaceView implements Callback, Runnable {
 	/**
 	 * 与文字对应的图片
 	 */
-	private int[] mImgs = new int[] { R.drawable.danfan, R.drawable.ipad,
-			R.drawable.f040, R.drawable.iphone, R.drawable.meizi,
+	private int[] mImgs = new int[] { R.drawable.f040, R.drawable.f040,
+			R.drawable.f040, R.drawable.f040, R.drawable.f040,
 			R.drawable.f040 };
 
 	/**

@@ -3,8 +3,6 @@ package com.daguo.ui.commercial;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -18,10 +16,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebSettings.PluginState;
+import android.webkit.WebSettings.TextSize;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -40,6 +44,7 @@ import com.daguo.utils.HttpUtil;
 public class Shop_GoodsDetailAty extends Activity {
 
 	private ImageView goods_icon;
+	private WebView wbView;
 	private TextView goods_nameTextView, goods_priceTextView,
 			goods_scoreTextView, goods_descTextView;
 	private Button payButton;
@@ -48,6 +53,7 @@ public class Shop_GoodsDetailAty extends Activity {
 	private AsyncImageLoader2 asyncImageLoader2 = new AsyncImageLoader2();
 	private String[] imageUrl;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,70 +65,60 @@ public class Shop_GoodsDetailAty extends Activity {
 		goods_priceTextView = (TextView) findViewById(R.id.goods_price);
 		goods_scoreTextView = (TextView) findViewById(R.id.goods_score);
 		grid = (NoScrollGridView) findViewById(R.id.grid);
+		wbView = (WebView) findViewById(R.id.godds_des);
 
 		goods_nameTextView.setText("商品名：  " + Fragment_Mall_Item.goodsName);
 		goods_priceTextView.setText("价格：  " + Fragment_Mall_Item.goodsPrice
 				+ " 元");
 		goods_scoreTextView.setText("购买积分： " + Fragment_Mall_Item.goodsscore
 				+ " 分");
+		wbView.getSettings().setDefaultTextEncodingName("UTF-8");
 		String content = Fragment_Mall_Item.goodsDesc;
-		
-		
-		String str ="";
-		{
-//			String head="<img src=\"";
-//	        String foot="\">";
-//	        List<String> resultList = new ArrayList<String>();
-//	        Pattern p = Pattern.compile(head+"(.*?)"+foot);//匹配<p>开头，</p>结尾的文档
-//	        Matcher m = p.matcher(content);//开始编译
-//	        while (m.find()) {
-//	             str=m.group(1);
-//	            resultList.add(HttpUtil.IMG_SHOP+str);
-//	            }
-			String head="<img src=\"";
-			String foot="\">";
-			Pattern pattern = Pattern.compile(head+".*?"+foot);
-			Matcher matcher = pattern.matcher(content);
-			while (matcher.find()) {
-				str= matcher.group(0);
-				
-			}
-			
-			
-		}
-		URLImageParser p = new URLImageParser(goods_descTextView, Shop_GoodsDetailAty.this);
-		CharSequence sequence = Html.fromHtml(str, p,
-				null);
-		
-		//TODO 
-		goods_descTextView.setText(sequence);
 
-		// String zhengze = "src=\"(\\d+)\"";
-		// Pattern pattern = Pattern.compile(zhengze);
-		// Matcher matcher = pattern.matcher(content);
-		// while (matcher.find()) {
-		// String keyWord = matcher.group(1);// 获取匹配的id内容R.id.xxx对应的静态值
-		// int keyWord_Int = Integer.parseInt(keyWord);// 得到int类型的id值
+		if (Fragment_Mall_Item.img_src.equals("")) {
+
+		} else {
+
+			String img_src[] = Fragment_Mall_Item.img_src.split(",");
+
+			for (int j = 0; j < img_src.length; j++) {
+				content = content.replaceAll(img_src[j],
+						"http://115.29.224.248:8080" + img_src[j]);
+			}
+		}
+
+		Log.i("商品介绍src", content);
+		// wbView.getSettings().setUseWideViewPort(true);
+		// wbView.getSettings().setLoadWithOverviewMode(true);
+		wbView.getSettings().setTextSize(TextSize.NORMAL);
+
+		// String str ="";
 		//
-		// // 通过values反向取key ，添加http地址，得到该图片在网页上的地址，使其可以在网页和后台被查看。
-		// Iterator<String> iterator = mFaceMap.keySet().iterator();
-		// while (iterator.hasNext()) {
-		// String keyString = iterator.next();
-		// if (mFaceMap.get(keyString).equals(keyWord_Int)) {
-		//
-		// String content_Url = "http://www.07919.com/module/chat/images/"
-		// + keyString;
-		// // str = content.replaceAll(keyWord,
-		// // Matcher.quoteReplacement(content_Url));
-		// str = content.replaceFirst(keyWord,
-		// Matcher.quoteReplacement(content_Url));
-		// content = str;
-		// break;
-		// }
-		//
-		// }
-		//
-		// }
+		// URLImageParser p = new URLImageParser(goods_descTextView,
+		// Shop_GoodsDetailAty.this);
+		// CharSequence sequence = Html.fromHtml(str, p,
+		// null);
+		// TODO
+		// goods_descTextView.setText(sequence);
+		WebSettings settings = wbView.getSettings();
+		settings.setJavaScriptEnabled(true);
+		settings.setJavaScriptCanOpenWindowsAutomatically(true);
+		settings.setPluginState(PluginState.ON);
+		// settings.setPluginsEnabled(true);
+		settings.setLoadWithOverviewMode(true);
+
+		settings.setJavaScriptCanOpenWindowsAutomatically(true);
+		settings.setAllowFileAccess(true);
+		settings.setDefaultTextEncodingName("UTF-8");
+
+		wbView.setWebChromeClient(new MyWebChromeClient());
+		wbView.setWebViewClient(new MyWebViewClient());
+
+		wbView.setVisibility(View.VISIBLE);
+
+		settings.setAppCacheEnabled(true);
+
+		wbView.loadData(content, "text/html; charset=UTF-8", null);
 
 		goods_icon.setVisibility(View.VISIBLE);
 		loadImage(HttpUtil.IMG_URL + Fragment_Mall_Item.thumb_path,
@@ -157,13 +153,14 @@ public class Shop_GoodsDetailAty extends Activity {
 				imageBrower(position, imageUrl);
 			}
 		});
-		
-		payButton=(Button) findViewById(R.id.pay_btn);
-		payButton.setOnClickListener(new  View.OnClickListener() {
-			
+
+		payButton = (Button) findViewById(R.id.pay_btn);
+		payButton.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View arg0) {
-				Intent intent =new  Intent(Shop_GoodsDetailAty.this,Shop_OrderAty.class);
+				Intent intent = new Intent(Shop_GoodsDetailAty.this,
+						Shop_OrderAty.class);
 				startActivity(intent);
 			}
 		});
@@ -196,10 +193,10 @@ public class Shop_GoodsDetailAty extends Activity {
 				position);
 		startActivity(intent);
 	}
+
 	/**
 	 * 
-	 * @author Bugs_Rabbit
-	 *  時間： 2015-8-18 下午9:42:21
+	 * @author Bugs_Rabbit 時間： 2015-8-18 下午9:42:21
 	 */
 	class URLImageParser implements ImageGetter {
 
@@ -281,6 +278,65 @@ public class Shop_GoodsDetailAty extends Activity {
 				drawable.draw(canvas);
 			}
 		}
+	}
+
+	class MyWebChromeClient extends WebChromeClient {
+
+		private CustomViewCallback mCustomViewCallback;
+		private int mOriginalOrientation = 1;
+
+		@Override
+		public void onShowCustomView(View view, CustomViewCallback callback) {
+			onShowCustomView(view, mOriginalOrientation, callback);
+			super.onShowCustomView(view, callback);
+
+		}
+
+		public void onShowCustomView(View view, int requestedOrientation,
+				WebChromeClient.CustomViewCallback callback) {
+
+		}
+
+		public void onHideCustomView() {
+
+			// Show the content view.
+
+			setRequestedOrientation(mOriginalOrientation);
+		}
+
+	}
+
+	class MyWebViewClient extends WebViewClient {
+
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			view.loadUrl(url);
+			return super.shouldOverrideUrlLoading(view, url);
+		}
+
+	}
+
+	public static int getPhoneAndroidSDK() {
+		int version = 0;
+		try {
+			version = Integer.valueOf(android.os.Build.VERSION.SDK);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return version;
+
+	}
+
+	@Override
+	public void onPause() {// 继承自Activity
+		super.onPause();
+		wbView.onPause();
+	}
+
+	@Override
+	public void onResume() {// 继承自Activity
+		super.onResume();
+		wbView.onResume();
 	}
 
 }

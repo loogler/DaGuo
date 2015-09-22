@@ -18,6 +18,11 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -28,6 +33,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -40,7 +46,7 @@ import com.umeng.update.UmengUpdateAgent;
 
 @SuppressWarnings("deprecation")
 /**
- * 
+ * 主页！
  * @author Bugs_Rabbit
  *  時間： 2015-7-28 下午2:09:30
  */
@@ -53,6 +59,9 @@ public class MainActivity extends Activity {
 	private LocalActivityManager manager = null;
 	private MyPagerAdapter mpAdapter = null;
 	boolean isNew, isUp;
+	
+	//版本说明
+	private String remark ;
 
 	@Override
 	protected void onStart() {
@@ -128,16 +137,19 @@ public class MainActivity extends Activity {
 
 		MobclickAgent.setSessionContinueMillis(30000);
 		UmengUpdateAgent.setDefault();
-//		PushAgent mPushAgent = PushAgent.getInstance(MainActivity.this);
-//		mPushAgent.enable();
-//		String device_token = UmengRegistrar.getRegistrationId(MainActivity.this);
-//		Log.i("device_token", device_token);
-		
-		PushManager.startWork(getApplicationContext(),PushConstants.LOGIN_TYPE_API_KEY,"AdIscyAlmlAHQxB83IfNoFIl");
+		// PushAgent mPushAgent = PushAgent.getInstance(MainActivity.this);
+		// mPushAgent.enable();
+		// String device_token =
+		// UmengRegistrar.getRegistrationId(MainActivity.this);
+		// Log.i("device_token", device_token);
+
+		PushManager.startWork(getApplicationContext(),
+				PushConstants.LOGIN_TYPE_API_KEY, "AdIscyAlmlAHQxB83IfNoFIl");
 		radioGroup = (RadioGroup) findViewById(R.id.rdg);
 		viewPage = (ViewPager) findViewById(R.id.vPager);
 		manager = new LocalActivityManager(this, true);
 		manager.dispatchCreate(savedInstanceState);
+//		 init();
 		initViewPager();
 		viewPage.setCurrentItem(0);
 		viewPage.setOnPageChangeListener(new MyOnPageChangeListener());
@@ -228,6 +240,37 @@ public class MainActivity extends Activity {
 		// viewPage.setOnPageChangeListener(new MyOnPageChangeListener());
 
 	}
+
+	/**
+	 * 设置bounds 更改drawatop大小 结果呢 不同手机上显示还不一样
+	 * 
+	 */
+	private void init() {
+		RadioButton home, interaction, shop, cent;
+		home = (RadioButton) findViewById(R.id.home);
+		interaction = (RadioButton) findViewById(R.id.interaction);
+		shop = (RadioButton) findViewById(R.id.shop);
+		cent = (RadioButton) findViewById(R.id.cent);
+		setDrawableTop(home);
+		setDrawableTop(interaction);
+		setDrawableTop(shop);
+		setDrawableTop(cent);
+	}
+
+	/**
+	 * 设置drawabletop大小
+	 * 
+	 * @param tv
+	 */
+	public void setDrawableTop(RadioButton tv) {
+		Drawable drawable = tv.getCompoundDrawables()[1];
+		drawable.setBounds(0, 0, 40, 40);
+//		getMyBitmap(drawable ,40,40);
+
+		tv.setCompoundDrawables(null, drawable, null, null);
+	}
+
+
 
 	/**
 	 * 
@@ -402,7 +445,7 @@ public class MainActivity extends Activity {
 				JSONObject js = new JSONObject(res);
 				Double vc = js.getDouble("version");
 				Double va = Double.parseDouble(packageInfo.versionName);
-
+				remark=js.getString("remark");
 				if (vc > va) {
 					isNew = true;
 				} else if (vc <= va) {
@@ -446,7 +489,7 @@ public class MainActivity extends Activity {
 
 				new AlertDialog.Builder(MainActivity.this)
 						.setTitle("升级提示")
-						.setMessage("下载最新APP，体验最新功能")
+						.setMessage(remark)
 						.setPositiveButton("确定",
 								new DialogInterface.OnClickListener() {
 
@@ -483,6 +526,5 @@ public class MainActivity extends Activity {
 		}
 
 	}
-	
-	
+
 }

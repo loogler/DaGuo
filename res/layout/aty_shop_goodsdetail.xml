@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/nickname_tv"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/green_home"
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1" >
+        android:layout_below="@+id/nickname_tv" >
 
         <LinearLayout
             android:paddingBottom="8dp"
@@ -109,12 +109,20 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/godds_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="详细介绍..."
                 android:textColor="@color/gray" />
+            <WebView 
+                 android:id="@+id/godds_des"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="详细介绍..."
+                />
         </LinearLayout>
     </ScrollView>
 

@@ -9,28 +9,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.daguo.R;
-import com.daguo.ui.operators.BroadBandAty;
-import com.daguo.ui.operators.BroadBandOrderAty;
-import com.daguo.util.beans.ShuoShuoContent;
-import com.daguo.utils.HttpUtil;
-import com.daguo.utils.UploadPhotoUtil;
-import com.daguo.utils.UploadUtil;
-import com.daguo.view.dialog.MySelf_Mod_Photo;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -43,12 +33,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daguo.R;
+import com.daguo.utils.HttpUtil;
+import com.daguo.utils.UploadPhotoUtil;
+import com.daguo.utils.UploadUtil;
+import com.daguo.view.dialog.MySelf_Mod_Photo;
+
 public class SC_ShuoShuo_WriteAty extends Activity implements OnClickListener {
 	String tag = "SC_ShuoShuo_WriteAty";
 	private EditText content;
 	private TextView send;
-	private ImageView add_photo;
-	private LinearLayout llLayout ;
+	private ImageView add_photo, show_pic;
+	private LinearLayout llLayout;
 
 	private String c;
 	private String p_id, p_name, img_path;
@@ -82,10 +78,11 @@ public class SC_ShuoShuo_WriteAty extends Activity implements OnClickListener {
 	 * 初始化
 	 */
 	private void init() {
-		llLayout=(LinearLayout) findViewById(R.id.linearLayout_1);
+		llLayout = (LinearLayout) findViewById(R.id.linearLayout_1);
 		content = (EditText) findViewById(R.id.shuoshuo_content);
 		send = (TextView) findViewById(R.id.sendtv);
 		add_photo = (ImageView) findViewById(R.id.add_pic);
+		show_pic = (ImageView) findViewById(R.id.show_pic);
 
 		send.setOnClickListener(this);
 		add_photo.setOnClickListener(this);
@@ -124,6 +121,7 @@ public class SC_ShuoShuo_WriteAty extends Activity implements OnClickListener {
 					getPhotoFileName(2));
 			takeintent
 					.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+			//
 			startActivityForResult(takeintent, PHOTO_REQUEST_TAKEPHOTO);
 			break;
 		case R.id.btn_pick_photo:
@@ -144,65 +142,113 @@ public class SC_ShuoShuo_WriteAty extends Activity implements OnClickListener {
 
 		@Override
 		public void run() {
-			String request = null;
-			String url = HttpUtil.IMG_URL_SUB;
-			System.out.println("uploadFile--->" + uploadFile.getName());
-			UploadPhotoUtil up = new UploadPhotoUtil();
+			if (uploadFile != null) {
 
-			request = UploadUtil.uploadFile(uploadFile, url);
-			JSONObject js;
-			try {
-				js = new JSONObject(request);
-				img_path = js.getString("fileRelativePath");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			// progressDialog.dismiss();
-			if (UploadUtil.rescode == 200) {
-				// 上传成功 提交至服务器产生新说说。
-				String u1 = HttpUtil.SUBMIT_SHUOSHUO;
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("p_id", p_id);
-				map.put("p_name", p_name);
-				map.put("content", c);
-				map.put("img_path", img_path);
-				map.put("good_count", "0");
-				map.put("feedback_count", "0");
+				String request = null;
+				String url = HttpUtil.IMG_URL_SUB;
+				System.out.println("uploadFile--->" + uploadFile.getName());
+				UploadPhotoUtil up = new UploadPhotoUtil();
+
+				request = UploadUtil.uploadFile(uploadFile, url);
+				JSONObject js;
 				try {
-					String res = HttpUtil.postRequest(u1, map);
-					if (res != null) {
-						// 成功
-						runOnUiThread(new Runnable() {
-							public void run() {
-								Toast.makeText(SC_ShuoShuo_WriteAty.this,
-										"发表成功！", Toast.LENGTH_SHORT).show();
-								Intent intent = new Intent(
-										SC_ShuoShuo_WriteAty.this,
-										SC_ShuoShuoAty.class);
-								startActivity(intent);
-								finish();
-							}
-						});
-					} else {
-						// 失败
-						runOnUiThread(new Runnable() {
-							public void run() {
-								Toast.makeText(SC_ShuoShuo_WriteAty.this,
-										"发表失败，请重试！", Toast.LENGTH_SHORT).show();
-							}
-						});
-					}
+					js = new JSONObject(request);
+					img_path = js.getString("fileRelativePath");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} else {
-				runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(SC_ShuoShuo_WriteAty.this, "上传失败，请重新上传",
-								Toast.LENGTH_SHORT).show();
 
+				// progressDialog.dismiss();
+				if (UploadUtil.rescode == 200) {
+					// 上传成功 提交至服务器产生新说说。
+					String u1 = HttpUtil.SUBMIT_SHUOSHUO;
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("p_id", p_id);
+					map.put("p_name", p_name);
+					map.put("content", c);
+					map.put("img_path", img_path);
+					map.put("good_count", "0");
+					map.put("feedback_count", "0");
+					try {
+						String res = HttpUtil.postRequest(u1, map);
+						if (res != null) {
+							// 成功
+							runOnUiThread(new Runnable() {
+								public void run() {
+									Toast.makeText(SC_ShuoShuo_WriteAty.this,
+											"发表成功！", Toast.LENGTH_SHORT).show();
+									Intent intent = new Intent(
+											SC_ShuoShuo_WriteAty.this,
+											SC_ShuoShuoAty.class);
+									startActivity(intent);
+									finish();
+								}
+							});
+						} else {
+							// 失败
+							runOnUiThread(new Runnable() {
+								public void run() {
+									Toast.makeText(SC_ShuoShuo_WriteAty.this,
+											"发表失败，请重试！", Toast.LENGTH_SHORT)
+											.show();
+								}
+							});
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				});
+				} else {
+					runOnUiThread(new Runnable() {
+						public void run() {
+							Toast.makeText(SC_ShuoShuo_WriteAty.this,
+									"上传失败，请重新上传", Toast.LENGTH_SHORT).show();
+
+						}
+					});
+				}
+			} else {
+				// 图片未上传 只上传文字说说
+				try {
+
+					String u1 = HttpUtil.SUBMIT_SHUOSHUO;
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("p_id", p_id);
+					map.put("p_name", p_name);
+					map.put("content", c);
+					map.put("img_path", img_path);
+					map.put("good_count", "0");
+					map.put("feedback_count", "0");
+					try {
+						String res = HttpUtil.postRequest(u1, map);
+						if (res != null) {
+							// 成功
+							runOnUiThread(new Runnable() {
+								public void run() {
+									Toast.makeText(SC_ShuoShuo_WriteAty.this,
+											"发表成功！", Toast.LENGTH_SHORT).show();
+									Intent intent = new Intent(
+											SC_ShuoShuo_WriteAty.this,
+											SC_ShuoShuoAty.class);
+									startActivity(intent);
+									finish();
+								}
+							});
+						} else {
+							// 失败
+							runOnUiThread(new Runnable() {
+								public void run() {
+									Toast.makeText(SC_ShuoShuo_WriteAty.this,
+											"发表失败，请重试！", Toast.LENGTH_SHORT)
+											.show();
+								}
+							});
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} catch (Exception e) {
+				}
+
 			}
 
 		}
@@ -220,6 +266,8 @@ public class SC_ShuoShuo_WriteAty extends Activity implements OnClickListener {
 		if (i == 1) {
 			return dateFormat.format(date) + "_crop.JPEG";
 		} else {
+			// Toast.makeText(SC_ShuoShuo_WriteAty.this, "照片已提交！",
+			// Toast.LENGTH_SHORT).show();
 			return dateFormat.format(date) + ".JPEG";
 		}
 	}
@@ -231,18 +279,25 @@ public class SC_ShuoShuo_WriteAty extends Activity implements OnClickListener {
 		Log.i(tag, "void onActivityResult拍照/选照片");
 		switch (requestCode) {
 		case PHOTO_REQUEST_TAKEPHOTO:// 当选择拍照时调用
-			if (data != null)
-				startPhotoZoom(Uri.fromFile(tempFile), 300);
+
+			// if (data != null){
+			startPhotoZoom(Uri.fromFile(tempFile), 300);
+			// }
+
 			break;
 
 		case PHOTO_REQUEST_GALLERY:// 当选择从本地获取图片时
 			// 做非空判断，当我们觉得不满意想重新剪裁的时候便不会报异常，下同
 			if (data != null)
 				startPhotoZoom(data.getData(), 300);
+
 			break;
 
 		case PHOTO_REQUEST_CUT:// 返回的结果
 			if (data != null) {
+				// Intent intent =new Intent();
+				// intent.setDataAndType(data.getData(), "image/*");
+
 				Bitmap bitmap = data.getParcelableExtra("data");
 				uploadFile = saveToLocal(bitmap);
 				setPicToView(bitmap);
@@ -278,13 +333,13 @@ public class SC_ShuoShuo_WriteAty extends Activity implements OnClickListener {
 
 	/**** 将进行剪裁后的图片显示到UI界面上 */
 	private void setPicToView(Bitmap bitmap) {
-		// Drawable drawable = new BitmapDrawable(bitmap);
-		// imag_pic.setImageDrawable(drawable);
+		Drawable drawable = new BitmapDrawable(bitmap);
+		show_pic.setImageDrawable(drawable);
 		// picChange = 1;
 
 		Log.i(tag, "setPicToView显示至ui");
-		Toast.makeText(getApplicationContext(), "照片已提交，审核通过后才可以显示！",
-				Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "照片已提交！", Toast.LENGTH_LONG)
+				.show();
 		;
 	}
 

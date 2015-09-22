@@ -86,8 +86,8 @@ public class HttpUtil {
 	 */
 	public static final String QUERY_USERINFO = URL
 			+ "personInfo/queryPersonInfoList?android=1&rows=1&page=1";
-	
-	/******订单**************** split line **************************************/
+
+	/****** 订单 **************** split line *******************************************/
 	/**
 	 * 主表订单，所有订单共有接口
 	 */
@@ -130,11 +130,18 @@ public class HttpUtil {
 
 	public static final String QUERY_GOODSLIST = URL
 			+ "goods/queryGoodsList?android=1&rows=50";
-	/******领奖************************split line **************************/
-	public static final String QUERY_ACCEPTPRIZE=URL+"acceptPrize/queryAcceptPrizeList?android=1&page=1&rows=10";
-	public static final String SUBMIT_AWARDSTATUS=URL+"acceptPrize/saveOrUpdate?android=1";
-	
-	/*****说说************************** split line ************************************************/
+	/****** 领奖 活动************************split line *****************************************************/
+	/**
+	 * 领奖
+	 */
+	public static final String QUERY_ACCEPTPRIZE = URL
+			+ "acceptPrize/queryAcceptPrizeList?android=1&page=1&rows=10";
+	public static final String SUBMIT_AWARDSTATUS = URL
+			+ "acceptPrize/saveOrUpdate?android=1";
+	public static final String QUERY_NEWS = URL
+			+ "article/queryArticleList?android=1&menu_id=db94a88d-5c78-448b-a3a7-4af1c3850571";
+
+	/***** 说说************************** split line ************************************************/
 	/**
 	 * 说说新建 返回一条说说id
 	 */
@@ -145,6 +152,16 @@ public class HttpUtil {
 	 */
 	public static final String QUERY_SHUOSHUO = URL
 			+ "topic/queryTopicList?android=1";
+	/**
+	 * 说说评论的查询 需要传入id参数
+	 */
+	public static final String QUERY_SHUOSHUO_EVA = URL
+			+ "topicFeedback/queryTopicFeedbackList?android=1&page=1&rows=999";
+	/**
+	 * 说说评论的修改提交 需要传入id 和评论者信息
+	 */
+	public static final String SUBMIT_SHUSHUO_EVA = URL
+			+ "topicFeedback/saveOrUpdate?android=1";
 
 	/*************************** split line *************************************/
 	/**
@@ -190,8 +207,8 @@ public class HttpUtil {
 								String result = EntityUtils
 										.toString(httpResponse.getEntity());
 
-								Log.e("url", url2);
-								Log.e("result", result);
+								Log.d("url", url2);
+								Log.d("result", result);
 								return result;
 							}
 							return null;
@@ -225,6 +242,7 @@ public class HttpUtil {
 							List<NameValuePair> params = new ArrayList<NameValuePair>();
 							for (String key : rawParams.keySet()) {
 								// 封装请求参数
+							
 								params.add(new BasicNameValuePair(key,
 										rawParams.get(key)));
 
@@ -242,9 +260,9 @@ public class HttpUtil {
 								String result = EntityUtils
 										.toString(httpResponse.getEntity());
 
-								Log.e("url", url2);
-								Log.e("param", rawParams.toString());
-								Log.e("result", result);
+								Log.d("url", url2);
+								Log.d("param", rawParams.toString());
+								Log.d("result", result);
 								return result;
 							}
 							return null;

@@ -35,7 +35,7 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_margin="15dp"
-        android:src="@drawable/erweima_800px" />
+        android:src="@drawable/erweima" />
 
     <TextView
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
         android:padding="10dp" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/nickname_tv"
             android:layout_width="wrap_content"
             android:layout_height="25dip"
             android:gravity="center"
@@ -69,8 +69,8 @@
             android:id="@+id/version"
             android:layout_width="wrap_content"
             android:layout_height="25dip"
-            android:layout_alignBaseline="@+id/textView1"
-            android:layout_alignBottom="@+id/textView1"
+            android:layout_alignBaseline="@+id/nickname_tv"
+            android:layout_alignBottom="@+id/nickname_tv"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:gravity="center"

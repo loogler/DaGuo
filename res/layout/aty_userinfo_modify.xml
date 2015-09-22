@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:id="@+id/rl" >
+    android:orientation="vertical" >
 
     <ImageView
         android:id="@+id/background_img"
@@ -17,12 +17,12 @@
         android:src="@drawable/scrollview_header" />
 
     <com.daguo.util.base.PullScrollView
-         android:id="@+id/scroll_view"
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         app:headerHeight="300dp"
-        app:headerVisibleHeight="100dp"  >
+        app:headerVisibleHeight="100dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -156,17 +156,18 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:background="@color/gray"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/gray"
                 android:orientation="vertical" >
 
                 <RelativeLayout
                     android:id="@+id/changeinfo_relayout_idcheck"
-                    style="@style/userinfo_item_top" >
+                    style="@style/userinfo_item_top"
+                    android:visibility="gone" >
 
                     <ImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -178,17 +179,18 @@
                         android:id="@+id/idcheck"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/imageView1"
+                        android:layout_alignBottom="@+id/back"
                         android:layout_centerHorizontal="true"
                         android:text="认证身份证" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/changeinfo_relayout_stucheck"
-                    style="@style/userinfo_item_bottom" >
+                    style="@style/userinfo_item_bottom"
+                    android:visibility="gone" >
 
                     <ImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -200,12 +202,10 @@
                         android:id="@+id/stucheck"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/imageView1"
+                        android:layout_alignBottom="@+id/back"
                         android:layout_centerHorizontal="true"
                         android:text="认证学生证" />
                 </RelativeLayout>
-
-
 
                 <RelativeLayout
                     android:id="@+id/changeinfo_relayout_nickname"
@@ -362,11 +362,10 @@
                     </LinearLayout>
                 </RelativeLayout>
 
-               
-
                 <RelativeLayout
                     android:id="@+id/changeinfo_relayout_idcard"
-                    style="@style/userinfo_item_middle" >
+                    style="@style/userinfo_item_middle"
+                    android:visibility="gone" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -425,16 +424,17 @@
                             android:src="@drawable/rightarrow" />
                     </LinearLayout>
                 </RelativeLayout>
-                <Button 
-                    android:layout_margin="10dp"
-                    android:padding="10dp"
+
+                <Button
                     android:id="@+id/submit_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_margin="10dp"
                     android:background="@drawable/btn_yuanjiao"
-                    android:text="提交资料"
-                    />
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textColor="@color/red"
+                    android:text="提交资料" />
             </LinearLayout>
         </LinearLayout>
     </com.daguo.util.base.PullScrollView>

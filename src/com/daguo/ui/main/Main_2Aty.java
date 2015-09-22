@@ -9,24 +9,36 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daguo.R;
+import com.daguo.ui.event.Event_AwardsAty;
+import com.daguo.ui.main.Main_1Aty.PA;
+import com.daguo.ui.operators.MobileAty;
 import com.daguo.util.base.Fragment_Mall_Item;
+import com.daguo.util.base.InnerScrollView;
 import com.daguo.util.beans.Type;
 import com.daguo.utils.HttpUtil;
 import com.daguo.utils.NetCheckUtil;
@@ -41,7 +53,7 @@ public class Main_2Aty extends FragmentActivity {
 	// public static Map<String, String> map = new HashMap<String, String>();
 	public static List<Type> lists = new ArrayList<Type>();
 	// 界面
-	private ScrollView scrollView;
+	private InnerScrollView scrollView;
 	private ViewPager shop_pager;
 	private ShopAdapter shopAdapter;
 
@@ -49,6 +61,21 @@ public class Main_2Aty extends FragmentActivity {
 
 	private LayoutInflater inflater;
 	private int currentItem = 0;
+	Message msg;
+
+	/*
+	 * 轮播广告
+	 */
+	private ViewPager tuijianViewPager;// 图片
+	private RadioGroup radioGroup1;// 框
+	private RadioButton rd0, rd1;// 圆点
+	private ArrayList<View> items = new ArrayList<View>();// view视图
+	private int[] imgResIDs = new int[] { R.drawable.tabshop_top_banner1,
+			R.drawable.tabshop_top_banner2 }; // 资源，本地的图片
+	private int[] radioButtonID = new int[] { R.id.radio0, R.id.radio1 };// 圆点id
+	private int mCurrentItem = 0;// 当前item
+	private Runnable mPagerAction;// 线程
+	private int mItem;// item
 
 	@Override
 	protected void onResume() {
@@ -72,89 +99,143 @@ public class Main_2Aty extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.aty_main2);
-		scrollView = (ScrollView) findViewById(R.id.tools_scrlllview);
+		scrollView = (InnerScrollView) findViewById(R.id.tools_scrlllview);
 
 		shopAdapter = new ShopAdapter(this.getSupportFragmentManager());
 		inflater = LayoutInflater.from(this);
 
+		tuijianViewPager = (ViewPager) findViewById(R.id.tuijian_vPager);
+		radioGroup1 = (RadioGroup) findViewById(R.id.radioGroup1);
+		initAllItems();
+		tuijianViewPager.setAdapter(new PA());
+		tuijianViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(final int arg0) {
+				mCurrentItem = arg0 % items.size();
+				tuijianViewPager.setCurrentItem(mCurrentItem);
+				radioGroup1.check(radioButtonID[mCurrentItem]);
+				items.get(arg0).findViewById(R.id.tuijian_header_img)
+						.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								// Toast.makeText(Main_1Aty.this,
+								// "选择了第" + arg0 + "个界面，跳转至相关推荐页", 1000)
+								// .show();
+								// if (arg0 == 0) {
+								// Intent intent = new Intent(Main_1Aty.this,
+								// Event_AwardsAty.class);
+								// startActivity(intent);
+								//
+								// } else if (arg0 == 1) {
+								// // TODO 选号界面
+								// Intent intent = new Intent(Main_1Aty.this,
+								// MobileAty.class);
+								// startActivity(intent);
+								//
+								// } else if (arg0 == 2) {
+								// Toast.makeText(Main_1Aty.this,
+								// "恭喜您已正式成为大果校园新生！",
+								// Toast.LENGTH_SHORT).show();
+								//
+								// }
+							}
+						});
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+
+			}
+
+		});
+
 		new Thread(new Runnable() {
 			public void run() {
 				try {
-					String urlString = HttpUtil.DICT_GOODS;
-					String resString = HttpUtil.getRequest(urlString);
-					JSONObject jsonObject = new JSONObject(resString);
-					JSONArray array = jsonObject.getJSONArray("rows");
-					if (array.length() > 0) {
+					if (toolsList == null) {
+						String urlString = HttpUtil.DICT_GOODS;
+						String resString = HttpUtil.getRequest(urlString);
+						JSONObject jsonObject = new JSONObject(resString);
+						JSONArray array = jsonObject.getJSONArray("rows");
+						if (array.length() > 0) {
 
-						for (int i = 0; i < array.length(); i++) {
+							for (int i = 0; i < array.length(); i++) {
 
-							String name = array.optJSONObject(i).getString(
-									"name");
-							String id = array.optJSONObject(i).getString("id");
-							nameList.add(name);
-							// idList.add(id);
-							// map.put(id, name);
-						}
-						if (toolsList == null) {
+								String name = array.optJSONObject(i).getString(
+										"name");
+								// String id = array.optJSONObject(i).getString(
+								// "id");
+								nameList.add(name);
+								// idList.add(id);
+								// map.put(id, name);
+							}
 
 							toolsList = nameList.toArray(new String[(nameList
 									.size())]);
+
+						} else {
+							// 数组小于1，说明没有字典，不过这个一般不会这样 ，
 						}
-
-					} else {
-						// 数组小于1，说明没有字典，不过这个一般不会这样 ，
 					}
+					showToolsView();
+					initPager();
+					if (lists.size() == 0) {
 
-					List<Type> infos = new ArrayList<Type>();
-					Type info = null;
+						List<Type> infos = new ArrayList<Type>();
+						Type info = null;
 
-					String url = HttpUtil.QUERY_GOODSLIST + "&page=1";
-					String res = HttpUtil.getRequest(url);
-					JSONObject json = new JSONObject(res);
-					JSONArray arr = json.getJSONArray("rows");
-					for (int i = 0; i < arr.length(); i++) {
+						String url = HttpUtil.QUERY_GOODSLIST + "&page=1";
+						String res = HttpUtil.getRequest(url);
+						JSONObject json = new JSONObject(res);
+						JSONArray arr = json.getJSONArray("rows");
+						for (int i = 0; i < arr.length(); i++) {
 
-						info = new Type();
-						String id = arr.optJSONObject(i).getString("id");
-						String img_path = arr.optJSONObject(i).getString(
-								"img_path");
-						String name = arr.optJSONObject(i).getString("name");
-						String price = arr.optJSONObject(i).getString("price");
-						String score = arr.optJSONObject(i).getString("score");
-						String type_id = arr.optJSONObject(i).getString(
-								"type_id");
-						String type_name = arr.optJSONObject(i).getString(
-								"type_name");
-						String goods_desc = arr.optJSONObject(i).getString(
-								"goods_desc");
-						String thumb_path = arr.optJSONObject(i).getString(
-								"thumb_path");
+							info = new Type();
+							String id = arr.optJSONObject(i).getString("id");
+							String img_path = arr.optJSONObject(i).getString(
+									"img_path");
+							String name = arr.optJSONObject(i)
+									.getString("name");
+							String price = arr.optJSONObject(i).getString(
+									"price");
+							String score = arr.optJSONObject(i).getString(
+									"score");
+							String type_id = arr.optJSONObject(i).getString(
+									"type_id");
+							String type_name = arr.optJSONObject(i).getString(
+									"type_name");
+							String goods_desc = arr.optJSONObject(i).getString(
+									"goods_desc");
+							String thumb_path = arr.optJSONObject(i).getString(
+									"thumb_path");
+							String img_src = arr.optJSONObject(i).getString(
+									"img_src");
 
-						info.setId(id);
-						info.setImg_path(img_path);
-						info.setName(name);
-						info.setPrice(price);
-						info.setScore(score);
-						info.setType_id(type_id);
-						info.setType_name(type_name);
-						info.setGoods_desc(goods_desc);
-						info.setThumb_path(thumb_path);
-						infos.add(info);
+							info.setId(id);
+							info.setImg_path(img_path);
+							info.setName(name);
+							info.setPrice(price);
+							info.setScore(score);
+							info.setType_id(type_id);
+							info.setType_name(type_name);
+							info.setGoods_desc(goods_desc);
+							info.setThumb_path(thumb_path);
+							info.setImg_src(img_src);
+							infos.add(info);
 
-					}
-					if (lists.size()==0) {
+						}
 
 						lists.addAll(infos);
 					}
 				} catch (Exception e) {
 				}
-				runOnUiThread(new Runnable() {
-					public void run() {
-
-						showToolsView();
-						initPager();
-					}
-				});
+				msg = handler.obtainMessage();
+				msg.sendToTarget();
 			}
 		}).start();
 
@@ -225,6 +306,7 @@ public class Main_2Aty extends FragmentActivity {
 			view.setOnClickListener(toolsItemListener);
 			TextView textView = (TextView) view.findViewById(R.id.text);
 			textView.setText(toolsList[i]);
+
 			toolsLayout.addView(view);
 			toolsTextViews[i] = textView;
 			views[i] = view;
@@ -328,6 +410,60 @@ public class Main_2Aty extends FragmentActivity {
 		public int getCount() {
 			return toolsList.length;
 		}
+	}
+
+	/**
+	 * 用于初始化界面
+	 * ******************************************************************
+	 * ************
+	 */
+	/**
+	 * 翻页适配
+	 * 
+	 * @author Bugs_Rabbit 時間： 2015-8-3 上午10:51:09
+	 */
+	class PA extends PagerAdapter {
+
+		@Override
+		public Object instantiateItem(View container, int position) {
+			View layout = items.get(position % items.size());
+			tuijianViewPager.addView(layout);
+			return layout;
+		}
+
+		@Override
+		public void destroyItem(View container, int position, Object object) {
+			View layout = items.get(position % items.size());
+			tuijianViewPager.removeView(layout);
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0 == arg1;
+
+		}
+
+		@Override
+		public int getCount() {
+			return imgResIDs.length;
+		}
+
+	}
+
+	private void initAllItems() {
+		for (int i = 0; i < imgResIDs.length; i++) {
+			items.add(initPagerItem(imgResIDs[i]));
+		}
+		mItem = items.size();
+	}
+
+	private View initPagerItem(int resID) {
+		View layout1 = getLayoutInflater().inflate(R.layout.item_lunbo_header,
+				null);
+		ImageView imageView1 = (ImageView) layout1
+				.findViewById(R.id.tuijian_header_img);
+		imageView1.setImageResource(resID);
+		return layout1;
 	}
 
 }

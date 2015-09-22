@@ -75,36 +75,44 @@ public class ChouJiangAty extends Activity {
 							// new AlertDialog.Builder(ChouJiangAty.this)
 							// .setMessage("您抽到了" + LuckyPanView.console)
 							// .setPositiveButton("确定", null).show();
-							dialog = new Dialog(ChouJiangAty.this);
-							dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-							dialog.show();
-
-							final Window window = dialog.getWindow();
-							window.setContentView(R.layout.item_choujiangconsole);
-							Button ok = (Button) window.findViewById(R.id.ok);
-							TextView queding = (TextView) window
-									.findViewById(R.id.jieguo);
-							Typeface tf = Typeface.createFromAsset(getAssets(),
-									"Roboto-MediumItalic.ttf");
-							queding.setTypeface(tf);
-							queding.setText("恭喜您获得  " + LuckyPanView.console
-									+ " 分");
-							ok.setOnClickListener(new View.OnClickListener() {
-
-								@Override
-								public void onClick(View arg0) {
-									// 计算 提交结果到服务器
-
-									cent = Integer
-											.parseInt(LuckyPanView.console);
-									Log.i("抽中多少积分", "" + cent);
-
-									dialog.dismiss();
-									// 结束当前activity
-									new Get_Cent().start();
-
-								}
-							});
+							// dialog = new Dialog(ChouJiangAty.this);
+							// dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+							// dialog.show();
+							//
+							// final Window window = dialog.getWindow();
+							// window.setContentView(R.layout.item_choujiangconsole);
+							// Button ok = (Button)
+							// window.findViewById(R.id.ok);
+							// TextView queding = (TextView) window
+							// .findViewById(R.id.jieguo);
+							// Typeface tf =
+							// Typeface.createFromAsset(getAssets(),
+							// "Roboto-MediumItalic.ttf");
+							// queding.setTypeface(tf);
+							// cent = Integer
+							// .parseInt(LuckyPanView.console);
+							// queding.setText("恭喜您获得  " + LuckyPanView.console
+							// + " 分");
+							// ok.setOnClickListener(new View.OnClickListener()
+							// {
+							//
+							// @Override
+							// public void onClick(View arg0) {
+							// // 计算 提交结果到服务器
+							//
+							// Log.i("抽中多少积分", "" + cent);
+							//
+							// dialog.dismiss();
+							// // 结束当前activity
+							cent = Integer.parseInt(LuckyPanView.console);
+							new Get_Cent().start();
+							Intent intent = new Intent(ChouJiangAty.this,
+									ChouJiangConsoleAty.class);
+							intent.putExtra("cent", cent);
+							startActivity(intent);
+							//
+							// }
+							// });
 						}
 					}, 3000);
 				}
@@ -184,8 +192,8 @@ public class ChouJiangAty extends Activity {
 
 					}
 					// JSONObject jsonObject2= new JSONObject(resString2);
-					dia.dismiss();
-					MyAppliation.getInstance().exit();
+//					dia.dismiss();
+					
 				} else {
 					Log.i("获取个人积分", "=======失败");
 				}
@@ -196,15 +204,15 @@ public class ChouJiangAty extends Activity {
 		}
 
 	}
-//
-//	@Override
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_BACK) {
-//			new AlertDialog.Builder(ChouJiangAty.this).setMessage("抽奖中，请等待")
-//					.setPositiveButton("确定", null).create().show();
-//		}
-//
-//		return true;
-//	}
+	//
+	// @Override
+	// public boolean onKeyDown(int keyCode, KeyEvent event) {
+	// if (keyCode == KeyEvent.KEYCODE_BACK) {
+	// new AlertDialog.Builder(ChouJiangAty.this).setMessage("抽奖中，请等待")
+	// .setPositiveButton("确定", null).create().show();
+	// }
+	//
+	// return true;
+	// }
 
 }

@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/iv_user"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:clickable="false"
                 android:focusable="false"
                 android:paddingLeft="5dip"
@@ -42,7 +42,7 @@
             android:textSize="25sp" />
 
         <RelativeLayout
-            android:id="@+id/rl1"
+            android:id="@+id/rl11"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/tabhome_userbtn"
@@ -78,6 +78,33 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <!-- 以上轮播广告    下面通知 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_tabhome_advertise"
+                android:orientation="horizontal"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/tabhome_gg"
+                    android:gravity="center_vertical"
+                    android:text=" 通知 :  "
+                    android:textColor="@color/red"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="恭喜你被大果校园录取，欢迎来到新校园。"
+                    android:textColor="@color/red"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
@@ -93,7 +120,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
                     android:button="@drawable/btn_radio_holo_light1"
                     android:clickable="false"
                     android:orientation="horizontal" >
@@ -114,34 +142,24 @@
                         android:layout_marginLeft="5dp"
                         android:button="@drawable/btn_radio_holo_light1"
                         android:clickable="false" />
-                    
+
+                    <RadioButton
+                        android:id="@+id/radio2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:button="@drawable/btn_radio_holo_light1"
+                        android:clickable="false" />
+
+                    <RadioButton
+                        android:id="@+id/radio3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:button="@drawable/btn_radio_holo_light1"
+                        android:clickable="false" />
                 </RadioGroup>
             </RelativeLayout>
-            <!-- 以上轮播广告    下面通知 -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/shape_tabhome_advertise"
-                android:padding="5dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/tabhome_gg"
-                    android:text=" 通知 :  "
-                    android:gravity="center_vertical"
-                    android:textColor="@color/green_home"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/tv_news"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="恭喜你被大果校园录取，欢迎来到新校园。"
-                    android:textSize="12sp" />
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -153,205 +171,267 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="20dp" >
+                android:background="#fff"
+                android:orientation="vertical" >
 
                 <LinearLayout
-                    android:id="@+id/ll1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="horizontal"
+                    android:padding="5dp" >
 
-                    <ImageView
-                        android:layout_width="50dip"
-                        android:layout_height="50dip"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/tabhome_btnfunction_1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:id="@+id/rl1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="课表服务"
-                        android:textColor="#555"
-                        android:textSize="14sp" />
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <ImageView
+                            android:id="@+id/iv_gc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/tabhome1_function_guangchang" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@+id/iv_gc"
+                            android:text="校园广场" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="0.3dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey_line" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <ImageView
+                            android:id="@+id/iv_gc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/tabhome1_function_xinxian" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="4dp"
+                            android:layout_toRightOf="@+id/iv_gc"
+                            android:text="校园新鲜事" />
+                    </RelativeLayout>
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:background="@color/grey_line" />
 
                 <LinearLayout
-                    android:id="@+id/ll2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="horizontal"
+                    android:padding="5dp" >
 
-                    <ImageView
-                        android:layout_width="50dip"
-                        android:layout_height="50dip"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/tabhome_btnfunction_2" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:id="@+id/rl3"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="校园社团"
-                        android:textColor="#555"
-                        android:textSize="14sp" />
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <ImageView
+                            android:id="@+id/iv_gc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/tabhome1_function_yidong" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@+id/iv_gc"
+                            android:text="移动生活" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="0.3dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey_line" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <ImageView
+                            android:id="@+id/iv_gc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/tabhome1_function_kebiao" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_toRightOf="@+id/iv_gc"
+                            android:text="课表服务" />
+                    </RelativeLayout>
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:background="@color/grey_line" />
 
                 <LinearLayout
-                    android:id="@+id/ll3"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/lll"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:visibility="gone" >
 
-                    <ImageView
-                        android:layout_width="50dip"
-                        android:layout_height="50dip"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/tabhome_btnfunction_3" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="校园超市"
-                        android:textColor="#555"
-                        android:textSize="14sp" />
+                        android:orientation="horizontal"
+                        android:padding="5dp" >
+
+                        <RelativeLayout
+                            android:id="@+id/rl5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center" >
+
+                            <ImageView
+                                android:id="@+id/iv_gc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/tabhome1_function_chaoshi" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="16dp"
+                                android:layout_toRightOf="@+id/iv_gc"
+                                android:text="校园超市" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="0.3dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/grey_line" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl6"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center" >
+
+                            <ImageView
+                                android:id="@+id/iv_gc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/tabhome1_function_juhui" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="16dp"
+                                android:layout_toRightOf="@+id/iv_gc"
+                                android:text="聚惠达人" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.2dp"
+                        android:background="@color/grey_line" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp" >
+
+                        <RelativeLayout
+                            android:id="@+id/rl7"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center" >
+
+                            <ImageView
+                                android:id="@+id/iv_gc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/tabhome1_function_xiaowai" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="16dp"
+                                android:layout_toRightOf="@+id/iv_gc"
+                                android:text="校外世界" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="0.3dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/grey_line" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl8"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center" >
+
+                            <ImageView
+                                android:id="@+id/iv_gc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/tabhome1_function_shetuan" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="16dp"
+                                android:layout_toRightOf="@+id/iv_gc"
+                                android:text="校园社团" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.2dp"
+                        android:background="@color/grey_line" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/ll4"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_jiantou"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <ImageView
-                        android:layout_width="50dip"
-                        android:layout_height="50dip"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/tabhome_btnfunction_4" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="聚惠达人"
-                        android:textColor="#555"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp" >
-
-                <LinearLayout
-                    android:id="@+id/ll5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <ImageView
-                        android:layout_width="50dip"
-                        android:layout_height="50dip"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/tabhome_btnfunction_5" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="校园广场"
-                        android:textColor="#555"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <ImageView
-                        android:layout_width="50dip"
-                        android:layout_height="50dip"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/tabhome_btnfunction_6" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="校外世界"
-                        android:textColor="#555"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <ImageView
-                        android:layout_width="50dip"
-                        android:layout_height="50dip"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/tabhome_btnfunction_7" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="校园新鲜事"
-                        android:textColor="#555"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <ImageView
-                        android:layout_width="50dip"
-                        android:layout_height="50dip"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/tabhome_btnfunction_8" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="移动生活"
-                        android:textColor="#555"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                    android:padding="15dp"
+                    android:src="@drawable/tabhome1_function_zhankai" />
             </LinearLayout>
 
             <!-- 以上功能按钮，下面是横排广告 -->
@@ -391,113 +471,41 @@
             </LinearLayout>
 
             <!-- 上面是竖排广告，下面是活动 -->
-            
-            
-            <LinearLayout
-                android:id="@+id/ll_bottom2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/shape_tabhome_advertise"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="5dp"
-                    android:text="移动携手大果校园送好礼"
-                    android:textColor="@color/green_home"
-                    android:textSize="18sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/lightgrey" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="领取你的新卡，好礼相送"
-                    android:textSize="16sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:maxLines="4"
-                        android:paddingLeft="5dp"
-                        android:text="亲爱的同学，辛苦了。为庆祝你来到新校园，新的城市里生活。领取你新卡后，我们会赠送各种小礼物，希望你能喜欢这里！" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/tabhome_bottom_2" />
-                </LinearLayout>
-            </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_bottom1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/shape_tabhome_advertise"
                 android:orientation="vertical" >
 
-                <TextView
+                <ImageView
+                    android:id="@+id/iv_buttom1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="5dp"
-                    android:text="我的大学新宿舍"
-                    android:textColor="@color/green_home"
-                    android:textSize="18sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/lightgrey" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="校园宿舍怎么装扮好看"
-                    android:textSize="16sp" />
+                    android:adjustViewBounds="true"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/tabhome1_buttom_add1" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/ll_bottom1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:maxLines="4"
-                        android:paddingLeft="5dp"
-                        android:text="9月，又到了一年一度的大学新生入学季，那个将伴随你大学生活四年的大学寝室该如何装扮?大学校的宿舍都是按照一个标准建造的，可谓是千篇一律，那么何将自己的宿舍变得与众不同、个性十足还有家的温暖呢?大刀阔斧的砸墙改造是不可能的，但是花点小钱用在软装装扮上或许会有意想不到的收获。" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/tabhome_bottom_1" />
+                    android:layout_margin="10dp"
+                    android:background="@drawable/shape_tabhome_advertise"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
                 </LinearLayout>
-            </LinearLayout>
-            <!-- dfsdfsf -->
 
-            
+                <ImageView
+                    android:id="@+id/iv_buttom2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/tabhome1_buttom_add2" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-    
 
 </LinearLayout>

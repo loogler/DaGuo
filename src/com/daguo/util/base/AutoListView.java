@@ -18,7 +18,11 @@ import android.widget.TextView;
 import com.daguo.R;
 import com.daguo.utils.TimeGetUtils;
 
-
+/**
+ * 上下拉刷新的控件！！  注意这个刷新头会占据一个position  所以onitemclick的时候需要-1；
+ * @author Bugs_Rabbit
+ *  時間： 2015-9-16 上午10:48:34
+ */
 public class AutoListView extends ListView implements OnScrollListener {
 
 	// 区分当前操作是刷新还是加载
@@ -314,6 +318,7 @@ public class AutoListView extends ListView implements OnScrollListener {
 			loading.setVisibility(View.VISIBLE);
 			more.setVisibility(View.VISIBLE);
 			noData.setVisibility(View.GONE);
+			
 		}
 
 	}

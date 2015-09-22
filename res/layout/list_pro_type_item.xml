@@ -10,7 +10,7 @@
         android:id="@+id/typeicon"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:scaleType="center"
+        android:scaleType="fitXY"
         android:contentDescription="@null"
         />
     <TextView 
@@ -21,7 +21,7 @@
         android:gravity="center"
         android:textColor="@color/green_home"
         android:textSize="15sp"
-        android:text="台灯"
+        android:text=""
         />
     <TextView 
         android:id="@+id/typeprice"
@@ -30,6 +30,6 @@
         android:gravity="center"
         android:textColor="@color/red"
         android:textSize="12sp"
-        android:text="12 元"
+        android:text=""
         />
 </LinearLayout>

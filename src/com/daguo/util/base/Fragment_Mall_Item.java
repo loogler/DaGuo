@@ -43,7 +43,7 @@ public class Fragment_Mall_Item extends Fragment {
 
 	private String price;
 	public static String goodsPrice, goodsName, goodsId, goodsDesc, img_path,
-			thumb_path, goodsscore;
+			thumb_path, goodsscore,img_src;
 
 	boolean istrue = true;
 	Message msg;
@@ -54,12 +54,12 @@ public class Fragment_Mall_Item extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_pro_type, null);
-
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 		hint_img = (ImageView) view.findViewById(R.id.hint_img);
 		listView = (GridView) view.findViewById(R.id.listView);
 		listView.setAdapter(adapter);
-		((TextView) view.findViewById(R.id.toptype)).setText(typename);
+//		显示上面文字的 客户说不要
+//		((TextView) view.findViewById(R.id.toptype)).setText(typename);
 		progressBar.setVisibility(View.GONE);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -72,7 +72,8 @@ public class Fragment_Mall_Item extends Fragment {
 				img_path = infos.get(position).getImg_path();
 				goodsName = infos.get(position).getName();
 				thumb_path = infos.get(position).getThumb_path();
-
+				img_src=infos.get(position).getImg_src();
+				
 				Intent intent = new Intent(getActivity(),
 						Shop_GoodsDetailAty.class);
 				startActivity(intent);

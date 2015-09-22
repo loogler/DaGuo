@@ -21,7 +21,7 @@ public class UserAgreementAty extends Activity {
 		setContentView(R.layout.aty_agreemnet);
 		buton_register_enter_2 = (Button) findViewById(R.id.button1);
 		text_agreement = (TextView) findViewById(R.id.agreement);
-		tv=(TextView) findViewById(R.id.textView1);
+		tv=(TextView) findViewById(R.id.nickname_tv);
 		buton_register_enter_2.setOnClickListener(new View.OnClickListener() {
 
 			@Override
