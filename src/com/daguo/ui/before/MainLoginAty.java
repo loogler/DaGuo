@@ -235,24 +235,24 @@ public class MainLoginAty extends Activity {
 											"userinfo",
 											Context.MODE_WORLD_READABLE);
 									Editor editor = sPreferences.edit();
-									editor.putString("tel", tel);
+									editor.putString("tel", tel);//电话号码
 									editor.putString("school_id",
-											school_idString);
+											school_idString);//学校id
 									editor.putString("pro_name", pro_name);//专业名臣
-									editor.putString("birthday", birthday);
-									editor.putString("sex", sex);
-									editor.putString("head_info", head_info);
-									editor.putString("school_name", school_name);
-									editor.putString("start_year", start_year);
-									editor.putString("score", score);
-									editor.putString("id_card", id_card);
+									editor.putString("birthday", birthday);//生日
+									editor.putString("sex", sex);//性别
+									editor.putString("head_info", head_info);//头像路径
+									editor.putString("school_name", school_name);//学校名称
+									editor.putString("start_year", start_year);//学年
+									editor.putString("score", score);//积分
+									editor.putString("id_card", id_card);//身份证号
 									editor.putString("id_card_copy",
-											id_card_copy);
-									editor.putString("address", address);
-									editor.putString("name", name);
+											id_card_copy);//身份证路径
+									editor.putString("address", address);//地址
+									editor.putString("name", name);//名字
 									editor.putString("stu_card_copy",
-											stu_card_copy);
-									editor.putString("id", id);
+											stu_card_copy);//学生证路径
+									editor.putString("id", id);//个人唯一id
 
 									editor.commit();
 

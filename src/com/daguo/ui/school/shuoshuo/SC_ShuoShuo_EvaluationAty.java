@@ -10,20 +10,9 @@ import java.util.Map;
 
 import net.tsz.afinal.FinalBitmap;
 
-import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.daguo.R;
-import com.daguo.util.adapter.SC_ShuoShuo_EvaAdapter;
-import com.daguo.util.beans.ShuoShuoContent;
-import com.daguo.util.beans.ShuoShuo_Evaluate;
-import com.daguo.utils.HttpUtil;
-import com.daguo.view.dialog.CustomProgressDialog;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import android.R.integer;
-import android.R.string;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -31,30 +20,45 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.PopupWindow.OnDismissListener;
+
+import com.daguo.R;
+import com.daguo.util.adapter.SC_ShuoShuo_EvaAdapter;
+import com.daguo.util.base.CircularImage;
+import com.daguo.util.beans.ShuoShuo_Evaluate;
+import com.daguo.util.pulllistview.XListView;
+import com.daguo.util.pulllistview.XListView.IXListViewListener;
+import com.daguo.utils.HttpUtil;
+import com.daguo.view.dialog.CustomProgressDialog;
 
 public class SC_ShuoShuo_EvaluationAty extends Activity implements
-		OnClickListener {
-	private ImageView headView, imgView;
-	private TextView user_nick, content, date, zan, pinglun;
+		OnClickListener, IXListViewListener, OnItemClickListener {
+	String tag = "SC_ShuoShuo_EvaluationAty";
+	private ImageView headView, imgView, sex_iv;
+	private TextView user_nick, content, date, zan, pinglun, schoolName, type;
 	private RelativeLayout evaluat;
+	CircularImage photo;
+	private XListView listView;
+	// 4个操作按钮 收藏点赞 分享评论
+	private TextView shoucangTextView, fenxiangTextView, dianzanTextView,
+			pinglunTextView;
 
-	private ListView listView;
 	CustomProgressDialog dialog;
 	private FinalBitmap finalBitmap;
 
@@ -63,7 +67,7 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	private Button sendBtn;
 	private InputMethodManager manager;
 	String id, good_count, feedback_count, content1, time, img_path, p_name,
-			p_avator;
+			p_avator, p_sex, school_name, type_name;
 	String feedback_content;
 	String p_id;
 
@@ -73,46 +77,22 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	private SC_ShuoShuo_EvaAdapter adapter;
 
 	Message msg;
+	private int pageIndex = 1;
 
 	Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 0:
-				int cc = Integer.parseInt(good_count) + 1;
-				zan.setText("点赞数 " + String.valueOf(cc));// 点赞数+1
-				dialog.dismiss();
-
-				break;
-			case 1:
-				int cc1 = Integer.parseInt(good_count) - 1;
-				zan.setText("点赞数" + String.valueOf(cc1));// 点赞数-1
-				dialog.dismiss();
-				break;
-
-			case 2:
-				// 发表说说
-
-				dialog.dismiss();
-
 				break;
 			case 3:
-				// 初始化界面
-				List<ShuoShuo_Evaluate> aaa = (List<ShuoShuo_Evaluate>) msg.obj;
-				lists.clear();
-				lists.addAll(aaa);
-				adapter.notifyDataSetChanged();
+				if (msg.obj != null && !msg.obj.equals("")) {
+					List<ShuoShuo_Evaluate> sss = (List<ShuoShuo_Evaluate>) msg.obj;
+					lists.addAll(sss);
+					adapter.notifyDataSetChanged();
 
-				break;
-			case 4:
-				// 界面无评论内容
-				Toast.makeText(SC_ShuoShuo_EvaluationAty.this, "暂无评论",
-						Toast.LENGTH_SHORT).show();
-				break;
-			case 5:
-				// 发表完评论处理
-
-				editWindow.dismiss();
-
+				} else {
+					Log.e(tag, "msg==null  位于msg=3");
+				}
 				break;
 
 			default:
@@ -137,12 +117,19 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 		img_path = i.getStringExtra("img_path");
 		p_name = i.getStringExtra("p_name");
 		p_avator = i.getStringExtra("p_avator");
+		p_sex = i.getStringExtra("sex");
+		school_name = i.getStringExtra("school_name");
+		type_name = i.getStringExtra("type");
 
 		init();
 		new Thread(new Init()).start();
 		adapter = new SC_ShuoShuo_EvaAdapter(SC_ShuoShuo_EvaluationAty.this,
 				lists);
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(this);
+		listView.setPullRefreshEnable(true);
+		listView.setPullLoadEnable(true);
+		listView.setXListViewListener(this);
 
 	}
 
@@ -153,31 +140,47 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 		user_nick = (TextView) findViewById(R.id.name);
 		content = (TextView) findViewById(R.id.content_text);
 		date = (TextView) findViewById(R.id.date);
-		zan = (TextView) findViewById(R.id.favuor_name);
-		pinglun = (TextView) findViewById(R.id.pinglun_name);
-		listView = (ListView) findViewById(R.id.listview);
+		listView = (XListView) findViewById(R.id.listview);
+		schoolName = (TextView) findViewById(R.id.schoolname);
+		sex_iv = (ImageView) findViewById(R.id.sex_iv);
+		type = (TextView) findViewById(R.id.type);
+		// 操作按钮
+		shoucangTextView = (TextView) findViewById(R.id.shoucang);
+		fenxiangTextView = (TextView) findViewById(R.id.fenxiang);
+		dianzanTextView = (TextView) findViewById(R.id.dianzan);
+		pinglunTextView = (TextView) findViewById(R.id.pinglun);
+		shoucangTextView.setOnClickListener(this);
+		fenxiangTextView.setOnClickListener(this);
+		dianzanTextView.setOnClickListener(this);
+		pinglunTextView.setOnClickListener(this);
 
 		imgView.setOnClickListener(this);
 		pinglun.setOnClickListener(this);
 		zan.setOnClickListener(this);
 
+		schoolName.setText(school_name);
+		if (p_sex.equals("0")) {
+			sex_iv.setVisibility(View.VISIBLE);
+			sex_iv.setImageResource(R.drawable.icon_sex_man);
+		} else if (p_sex.equals("1")) {
+			sex_iv.setVisibility(View.VISIBLE);
+			sex_iv.setImageResource(R.drawable.icon_sex_woman);
+		} else {
+			// 性别不明
+			sex_iv.setVisibility(View.GONE);
+		}
+		type.setText(type_name);
 		date.setText(handTime(time));
-		FinalBitmap.create(SC_ShuoShuo_EvaluationAty.this).display(headView,HttpUtil.IMG_URL + p_avator
-				);
+		FinalBitmap.create(SC_ShuoShuo_EvaluationAty.this).display(headView,
+				HttpUtil.IMG_URL + p_avator);
 		if (img_path != null && !img_path.equals("")
 				&& !img_path.equals("null") && !img_path.equals("[]")) {
-			FinalBitmap.create(SC_ShuoShuo_EvaluationAty.this).display(imgView,HttpUtil.IMG_URL + img_path
-					);
-			
-			
+			FinalBitmap.create(SC_ShuoShuo_EvaluationAty.this).display(imgView,
+					HttpUtil.IMG_URL + img_path);
+
 		} else {
 			imgView.setVisibility(View.GONE);
 		}
-
-		user_nick.setText(p_name);
-		content.setText(content1);
-		zan.setText("赞 (" + good_count + ")");
-		pinglun.setText("发表评论 ");
 
 	}
 
@@ -193,7 +196,8 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 
 			try {
 				List<ShuoShuo_Evaluate> ls = new ArrayList<ShuoShuo_Evaluate>();
-				String url = HttpUtil.QUERY_SHUOSHUO_EVA + "&page=1&rows=20";
+				String url = HttpUtil.QUERY_SHUOSHUO_EVA + "&rows=20&page="
+						+ pageIndex;
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("t_id", id);
 				String res = HttpUtil.postRequest(url, map);
@@ -333,7 +337,8 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 			feedback_content = replyEdit.getText().toString();
 			if (feedback_content != null && !feedback_content.equals("")) {
 				String url = HttpUtil.SUBMIT_SHUSHUO_EVA;
-//				String url="http://192.168.1.103:8080/XYYYT/service/topicFeedback/saveOrUpdate?android=1";
+				// String
+				// url="http://192.168.1.103:8080/XYYYT/service/topicFeedback/saveOrUpdate?android=1";
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("t_id", id);
 				map.put("content", feedback_content);
@@ -365,6 +370,9 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 		}
 	}
 
+	/**
+	 * 这是一个现实edittext 这个隐性视图的方法 显示然后可以输入
+	 */
 	private void showDiscuss() {
 
 		View editView = getLayoutInflater().inflate(
@@ -436,11 +444,11 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 				return "刚刚";
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
+
 	/**
 	 * 
 	 * @param position
@@ -461,14 +469,14 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
-		case R.id.favuor_name:
+		case R.id.shoucang:
 			// 点赞 后台处理 界面锁定 结束赞数加一 。
 			/**
 			 * dialog = CustomProgressDialog.createDialog(
 			 * SC_ShuoShuo_EvaluationAty.this, "加载中。。。"); dialog.show();
 			 */
 			break;
-		case R.id.pinglun_name:
+		case R.id.fenxiang:
 			// dialog = CustomProgressDialog.createDialog(
 			// SC_ShuoShuo_EvaluationAty.this, "加载中。。。");
 			// dialog.show();
@@ -477,15 +485,42 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 
 			break;
 		case R.id.image_content:
-			String [] urls=new  String []{img_path};
-			
-					imageBrower(0, urls);
-			
-			
+			String[] urls = new String[] { img_path };
+
+			imageBrower(0, urls);
+
 			break;
-			
+
 		default:
 			break;
 		}
+	}
+
+	private void onLoad() {
+		listView.stopRefresh();
+		listView.stopLoadMore();
+		listView.setRefreshTime("0");
+	}
+
+	@Override
+	public void onRefresh() {
+		pageIndex = 1;
+		new Thread(new Init()).start();
+
+		onLoad();
+
+	}
+
+	@Override
+	public void onLoadMore() {
+		pageIndex++;
+		new Thread(new Init()).start();
+		onLoad();
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+
 	}
 }

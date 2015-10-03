@@ -70,6 +70,10 @@ public class HttpUtil {
 	 */
 	public static final String LOGIN = URL
 			+ "personInfo/queryPersonInfoList?android=1&page=1&rows=1";
+	/**
+	 * 意见反馈接口 传入个人id
+	 */
+	public static final String USEROPINION=URL+"adviceFeedback/saveOrUpdate?android=1";
 
 	/**
 	 * 上传图片url

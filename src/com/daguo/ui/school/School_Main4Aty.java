@@ -216,6 +216,9 @@ public class School_Main4Aty extends Activity implements OnClickListener {
 		case R.id.shezhi_ll:
 
 			break;
+		case R.id.shuoshuo_ll:
+			
+			break;
 
 		default:
 			break;

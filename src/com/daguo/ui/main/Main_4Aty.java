@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,8 +22,16 @@ import android.widget.Toast;
 import com.daguo.R;
 import com.daguo.ui.before.MainLoginAty;
 import com.daguo.ui.settings.Setting_AboutAty;
+import com.daguo.ui.settings.Setting_App_IntroduceAty;
+import com.daguo.ui.settings.Setting_App_UserAgreementAty;
+import com.daguo.ui.settings.Setting_App_UserOpinion;
 import com.daguo.ui.user.UserInfo_ModifyAty;
-
+import com.daguo.view.dialog.CustomProgressDialog;
+/**
+ * 主页第四页  设置页
+ * @author Bugs_Rabbit
+ *  時間： 2015-9-28 下午10:34:28
+ */
 @SuppressLint("WorldReadableFiles")
 public class Main_4Aty extends Activity implements OnClickListener {
 
@@ -101,10 +110,18 @@ public class Main_4Aty extends Activity implements OnClickListener {
 		switch (arg0.getId()) {
 
 		case R.id.jianjie:// 大果简介
-			Toast.makeText(Main_4Aty.this, "这是简介", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(Main_4Aty.this, "这是简介",
+			// Toast.LENGTH_SHORT).show();
+			Intent intent_jianjie = new Intent(Main_4Aty.this,
+					Setting_App_IntroduceAty.class);
+			startActivity(intent_jianjie);
 			break;
 		case R.id.xieyi:// 用户协议
-			Toast.makeText(Main_4Aty.this, "这是协议", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(Main_4Aty.this, "这是协议",
+			// Toast.LENGTH_SHORT).show();
+			Intent intent_xieyi = new Intent(Main_4Aty.this,
+					Setting_App_UserAgreementAty.class);
+			startActivity(intent_xieyi);
 			break;
 		case R.id.xiugai:// 修改资料
 			Intent intent = new Intent(Main_4Aty.this, UserInfo_ModifyAty.class);
@@ -114,12 +131,16 @@ public class Main_4Aty extends Activity implements OnClickListener {
 			Toast.makeText(Main_4Aty.this, "这是消息中心", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.huancun:// 清除缓存
-			Toast.makeText(Main_4Aty.this, "清除缓存", Toast.LENGTH_SHORT).show();
+			CustomProgressDialog.createDialog(Main_4Aty.this, "清除中。。。", 2000)
+					.show();
+			
+
 			break;
 		case R.id.fankui:// 反馈
-			
-			Intent intent2 = new Intent();
-			//TODO 反馈界面没提供
+
+			Intent intent2 = new Intent(Main_4Aty.this,Setting_App_UserOpinion.class);
+			startActivity(intent2);
+			// TODO 反馈界面没提供
 			break;
 		case R.id.tuijian:// 推荐给好友
 			Toast.makeText(Main_4Aty.this, "推荐给好友", Toast.LENGTH_SHORT).show();

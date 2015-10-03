@@ -7,18 +7,23 @@ import java.util.List;
 
 import net.tsz.afinal.FinalBitmap;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.daguo.R;
+import com.daguo.modem.photo.MyGridAdapter;
+import com.daguo.modem.photo.NoScrollGridView;
 import com.daguo.ui.commercial.Shop_GoodsDetailAty;
-import com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty;
 import com.daguo.ui.school.shuoshuo.SC_ShuoShuo_EvaluationAty;
 import com.daguo.util.base.CircularImage;
 import com.daguo.util.beans.ShuoShuoContent;
@@ -29,11 +34,13 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 	private Context context;
 	private List<ShuoShuoContent> infos;
 	private ShuoShuoContent info;
+	private NoScrollGridView grid;// 照片相册gridView=(NoScrollGridView)
 	LayoutInflater inflater;
 	@SuppressLint("SimpleDateFormat")
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private FinalBitmap finalBit;
 	String[] urls;
+	String[] imgUrl;
 
 	public SC_ShuoShuoAdapter(Context context, List<ShuoShuoContent> infos) {
 		this.context = context;
@@ -58,6 +65,7 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public View getView(final int position, View view, ViewGroup parent) {
 		ViewHoldler holdler = null;
@@ -79,8 +87,44 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 			holdler.name.setText(info.getP_name());
 			holdler.pinglun.setText("评论(" + info.getFeedback_count() + ")");
 			holdler.time.setText(handTime(info.getCreatTime()));
+			holdler.type.setText(info.getType_name());
 			holdler.zan.setText("赞(" + info.getGood_count() + ")");
+			holdler.schoolName.setText(info.getSchool_name());
+			if (info.getP_sex().equals("0")) {
+				holdler.sex_iv.setVisibility(view.VISIBLE);
+				holdler.sex_iv.setImageResource(R.drawable.icon_sex_man);
+			} else if (info.getP_sex().equals("1")) {
+				holdler.sex_iv.setVisibility(view.VISIBLE);
+				holdler.sex_iv.setImageResource(R.drawable.icon_sex_woman);
+			} else {
+				// 性别不明
+				holdler.sex_iv.setVisibility(view.GONE);
+			}
+			
+			if (!isEmpty(info.getSigns())) {
+				imgUrl = info.getSigns().split(",");
+				int size = imgUrl.length;
 
+				int length = 100;
+
+				DisplayMetrics dm = new DisplayMetrics();
+				((Activity) context).getWindowManager().getDefaultDisplay()
+						.getMetrics(dm);
+				float density = dm.density;
+				int gridviewWidth = (int) (size * (length + 4) * density);
+				int itemWidth = (int) (length * density);
+
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+						gridviewWidth, LinearLayout.LayoutParams.FILL_PARENT);
+				grid.setLayoutParams(params);
+				grid.setColumnWidth(itemWidth);
+
+				grid.setHorizontalSpacing(5);
+				grid.setStretchMode(GridView.NO_STRETCH);
+				grid.setVerticalScrollBarEnabled(true);
+				grid.setNumColumns(size);
+				grid.setAdapter(new MyGridAdapter(imgUrl, context));
+			}
 			if (!isEmpty(info.getP_photo())) {
 
 				finalBit.display(holdler.photo,
@@ -95,7 +139,6 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 				// holdler.img_content);
 				finalBit.display(holdler.img_content,
 						HttpUtil.IMG_URL + info.getImg_path());
-				
 
 			} else {
 				holdler.img_content.setVisibility(View.GONE);
@@ -123,11 +166,13 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 				intent.putExtra("img_path", infos.get(position).getImg_path());
 				intent.putExtra("p_name", infos.get(position).getP_name());
 				intent.putExtra("p_avator", infos.get(position).getP_photo());
+				intent.putExtra("sex", infos.get(position).getP_sex());
+				intent.putExtra("school_name", infos.get(position).getSchool_name());
+				intent.putExtra("type", infos.get(position).getType_name());
 				context.startActivity(intent);
 			}
 		});
-		holdler.img_content
-		.setOnClickListener(new View.OnClickListener() {
+		holdler.img_content.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -143,12 +188,16 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 	class ViewHoldler {
 		CircularImage photo;
 		TextView name;
+		ImageView sex_iv;
+		TextView schoolName;
 		TextView content;
 		TextView time;
+		TextView type ;
 		TextView zan;
 		TextView pinglun;
 		// ImageButton caozuo;
 		ImageView img_content;
+		NoScrollGridView grid;
 
 	}
 
@@ -156,12 +205,16 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 		ViewHoldler holdler = new ViewHoldler();
 		holdler.content = (TextView) view.findViewById(R.id.content_text);
 		holdler.name = (TextView) view.findViewById(R.id.name);
+		holdler.sex_iv = (ImageView) view.findViewById(R.id.sex_iv);
 		holdler.photo = (CircularImage) view.findViewById(R.id.photo);
-		holdler.pinglun = (TextView) view.findViewById(R.id.pinglun_name);
+		holdler.pinglun = (TextView) view.findViewById(R.id.fenxiang);
 		holdler.time = (TextView) view.findViewById(R.id.date);
-		holdler.zan = (TextView) view.findViewById(R.id.favuor_name);
+		holdler.type=(TextView) view.findViewById(R.id.type);
+		holdler.zan = (TextView) view.findViewById(R.id.shoucang);
+		holdler.schoolName = (TextView) view.findViewById(R.id.schoolname);
 		// holdler.caozuo = (ImageButton) view.findViewById(R.id.reply_content);
 		holdler.img_content = (ImageView) view.findViewById(R.id.image_content);
+		holdler.grid = (NoScrollGridView) view.findViewById(R.id.grid);
 		return holdler;
 	}
 
@@ -191,7 +244,6 @@ public class SC_ShuoShuoAdapter extends BaseAdapter {
 				return "刚刚";
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

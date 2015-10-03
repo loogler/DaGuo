@@ -1,16 +1,13 @@
 package com.daguo.ui.school;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +15,7 @@ import com.daguo.R;
 import com.daguo.modem.schedule.Main_Aty;
 import com.daguo.ui.event.Event_AwardsAty;
 import com.daguo.ui.event.Event_NewsAty;
-import com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty;
-import com.daguo.ui.user.UserInfo_ModifyAty;
+import com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty1;
 
 public class School_Main1Aty extends Activity implements OnClickListener {
 	private ImageView  iv_mail, iv_point,iv_back ;
@@ -98,7 +94,7 @@ public class School_Main1Aty extends Activity implements OnClickListener {
 //
 //			break;
 		case R.id.iv_shuoshuo:
-			Intent intent =new  Intent(School_Main1Aty.this,SC_ShuoShuoAty.class);
+			Intent intent =new  Intent(School_Main1Aty.this,SC_ShuoShuoAty1.class);
 			startActivity(intent);
 			break;
 		case R.id.iv_mail:

@@ -174,11 +174,21 @@
         </activity>
         <activity android:name="com.daguo.ui.school.shuoshuo.SC_ShuoShuo_EvaluationAty" >
         </activity>
+        <activity android:name="com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty1" >
+        </activity>
         <!-- com.daguo.ui.settings -->
         <activity android:name="com.daguo.ui.settings.Setting_AboutAty" >
         </activity>
+        <activity android:name="com.daguo.ui.settings.Setting_App_IntroduceAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.settings.Setting_App_UserAgreementAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.settings.Setting_App_UserOpinion" >
+        </activity>
         <!-- com.daguo.ui.user.  个人中心部分 -->
         <activity android:name="com.daguo.ui.user.UserInfo_ModifyAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.user.UserInfo_MyShuoShuoAty" >
         </activity>
 
         <!-- alipay 支付宝 -->

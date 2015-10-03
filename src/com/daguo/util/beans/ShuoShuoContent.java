@@ -17,6 +17,13 @@ public class ShuoShuoContent {
 	private String type_name;// 分类名称
 	private String p_name;// 发帖人，省去查询的请求
 	private String p_photo;// 头像信息
+	private String p_sex;//性别
+	private String signs ;//点赞人的头像列表
+	private String school_id ;//学校id
+	private String school_name ;//学校名称
+	private String tableName ;
+	private String f_id ;
+	
 
 	public ShuoShuoContent() {
 		super();
@@ -109,5 +116,55 @@ public class ShuoShuoContent {
 	public void setP_photo(String p_photo) {
 		this.p_photo = p_photo;
 	}
+
+	public String getSigns() {
+		return signs;
+	}
+
+	public void setSigns(String signs) {
+		this.signs = signs;
+	}
+
+	public String getP_sex() {
+		return p_sex;
+	}
+
+	public void setP_sex(String p_sex) {
+		this.p_sex = p_sex;
+	}
+
+	public String getSchool_id() {
+		return school_id;
+	}
+
+	public void setSchool_id(String school_id) {
+		this.school_id = school_id;
+	}
+
+	public String getSchool_name() {
+		return school_name;
+	}
+
+	public void setSchool_name(String school_name) {
+		this.school_name = school_name;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public String getF_id() {
+		return f_id;
+	}
+
+	public void setF_id(String f_id) {
+		this.f_id = f_id;
+	}
+
+	
 
 }
