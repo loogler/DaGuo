@@ -8,6 +8,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
@@ -19,10 +20,11 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.daguo.R;
+
 /**
- * 公用xlistview 专用于上下拖动的listview   需要实现的接口包括 上拉和下滑，并且必须实现 XListViewListener，
- * @author Bugs_Rabbit
- *  時間： 2015-10-3 上午10:38:40
+ * 公用xlistview 专用于上下拖动的listview 需要实现的接口包括 上拉和下滑，并且必须实现 XListViewListener，
+ * 
+ * @author Bugs_Rabbit 時間： 2015-10-3 上午10:38:40
  */
 public class XListView extends ListView implements OnScrollListener {
 	private float mLastY = -1;
@@ -108,7 +110,8 @@ public class XListView extends ListView implements OnScrollListener {
 	/**
 	 * s是否下拉的接口
 	 * 
-	 * @param enable 是否下拉 
+	 * @param enable
+	 *            是否下拉
 	 */
 	public void setPullRefreshEnable(boolean enable) {
 		mEnablePullRefresh = enable;
@@ -120,9 +123,10 @@ public class XListView extends ListView implements OnScrollListener {
 	}
 
 	/**
-	 *是否上滑的接口方法   ===这里还有包括一个点击事件
+	 * 是否上滑的接口方法 ===这里还有包括一个点击事件
 	 * 
-	 * @param enable 是否上滑
+	 * @param enable
+	 *            是否上滑
 	 */
 	public void setPullLoadEnable(boolean enable) {
 		mEnablePullLoad = enable;
@@ -142,9 +146,10 @@ public class XListView extends ListView implements OnScrollListener {
 			});
 		}
 	}
-/**
- * 立即停止刷新    重置头部
- */
+
+	/**
+	 * 立即停止刷新 重置头部
+	 */
 	public void stopRefresh() {
 		if (mPullRefreshing == true) {
 			mPullRefreshing = false;
@@ -172,7 +177,7 @@ public class XListView extends ListView implements OnScrollListener {
 		SimpleDateFormat formatter = new SimpleDateFormat(
 				"yyyy 年MM 月dd 日   HH:mm:ss     ");
 		Date curDate = new Date(System.currentTimeMillis());
-		
+
 		String str = formatter.format(curDate);
 		mHeaderTimeView.setText(str);
 	}
@@ -187,7 +192,7 @@ public class XListView extends ListView implements OnScrollListener {
 	private void updateHeaderHeight(float delta) {
 		mHeaderView.setVisiableHeight((int) delta
 				+ mHeaderView.getVisiableHeight());
-		if (mEnablePullRefresh && !mPullRefreshing) { 
+		if (mEnablePullRefresh && !mPullRefreshing) {
 			if (mHeaderView.getVisiableHeight() > mHeaderViewHeight) {
 				mHeaderView.setState(XListViewHeader.STATE_READY);
 			} else {
@@ -344,4 +349,8 @@ public class XListView extends ListView implements OnScrollListener {
 
 		public void onLoadMore();
 	}
+	
+	
+
+
 }

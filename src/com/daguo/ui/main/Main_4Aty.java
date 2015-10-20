@@ -10,12 +10,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +23,7 @@ import com.daguo.ui.settings.Setting_AboutAty;
 import com.daguo.ui.settings.Setting_App_IntroduceAty;
 import com.daguo.ui.settings.Setting_App_UserAgreementAty;
 import com.daguo.ui.settings.Setting_App_UserOpinion;
-import com.daguo.ui.user.UserInfo_ModifyAty;
+import com.daguo.ui.user.UserInfo_ModifyAty1;
 import com.daguo.view.dialog.CustomProgressDialog;
 /**
  * 主页第四页  设置页
@@ -124,7 +122,7 @@ public class Main_4Aty extends Activity implements OnClickListener {
 			startActivity(intent_xieyi);
 			break;
 		case R.id.xiugai:// 修改资料
-			Intent intent = new Intent(Main_4Aty.this, UserInfo_ModifyAty.class);
+			Intent intent = new Intent(Main_4Aty.this, UserInfo_ModifyAty1.class);
 			startActivity(intent);
 			break;
 		case R.id.tixing:// 消息中心

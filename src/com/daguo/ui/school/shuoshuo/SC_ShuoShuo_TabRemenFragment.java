@@ -35,12 +35,12 @@ import com.daguo.utils.HttpUtil;
  * @author Bugs_Rabbit 時間： 2015-9-24 下午2:06:31
  */
 public class SC_ShuoShuo_TabRemenFragment extends Fragment implements
-		IXListViewListener, OnClickListener, OnItemClickListener {
+		OnLoadListener,OnRefreshListener, OnClickListener, OnItemClickListener {
 	String tag = "SC_ShuoShuo_TabRemenFragment";
 	/**
 	 * init Views
 	 */
-	private XListView XListView;
+	private AutoListView autoListView;
 	/**
 	 * user data
 	 */
@@ -69,8 +69,8 @@ public class SC_ShuoShuo_TabRemenFragment extends Fragment implements
 		p_sex = sp.getString("sex", "");
 		View view = inflater.inflate(R.layout.fragment_sc_shuoshuo_tabremen,
 				null);
-		XListView = (com.daguo.util.pulllistview.XListView) view
-				.findViewById(R.id.XListView);
+		autoListView = (AutoListView) view
+				.findViewById(R.id.autolistview);
 		return view;
 	}
 
@@ -107,14 +107,13 @@ public class SC_ShuoShuo_TabRemenFragment extends Fragment implements
 	private void initViews() {
 
 		adapter = new SC_ShuoShuoAdapter(getActivity(), lists);
-		XListView.setAdapter(adapter);
+		autoListView.setAdapter(adapter);
 		// XListView.setResultSize(lists.size());
 		// XListView.setOnRefreshListener(this);
 		// XListView.setOnLoadListener(this);
-		XListView.setOnItemClickListener(this);
-		XListView.setPullRefreshEnable(true);
-		XListView.setPullLoadEnable(true);
-		XListView.setXListViewListener(this);
+		autoListView.setOnItemClickListener(this);
+		autoListView.setOnRefreshListener(this);
+		autoListView.setOnLoadListener(this);
 	}
 
 	/**
@@ -205,12 +204,7 @@ public class SC_ShuoShuo_TabRemenFragment extends Fragment implements
 
 	}
 
-	private void onLoad() {
-		XListView.stopRefresh();
-		XListView.stopLoadMore();
-		XListView.setRefreshTime("0");
-	}
-
+	
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
@@ -224,18 +218,22 @@ public class SC_ShuoShuo_TabRemenFragment extends Fragment implements
 	}
 
 	@Override
+	public void onLoad() {
+		
+		pageIndex++;
+		loadData();
+		onLoad();
+		autoListView.onRefreshComplete();
+	}
+
+	@Override
 	public void onRefresh() {
 		pageIndex = 1;
 		lists.clear();
 		loadData();
-		onLoad();
-	}
+		
+		autoListView.onRefreshComplete();
 
-	@Override
-	public void onLoadMore() {
-		pageIndex++;
-		loadData();
-		onLoad();
 
 	}
 

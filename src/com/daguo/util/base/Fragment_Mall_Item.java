@@ -17,7 +17,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.daguo.R;
 import com.daguo.ui.commercial.Shop_GoodsDetailAty;

@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.daguo.R;
 import com.daguo.modem.photo.MyGridAdapter;
 import com.daguo.modem.photo.NoScrollGridView;
-import com.daguo.ui.commercial.Shop_GoodsDetailAty;
 import com.daguo.ui.school.shuoshuo.SC_ShuoShuo_EvaluationAty;
 import com.daguo.util.base.CircularImage;
 import com.daguo.util.beans.ShuoShuoContent;

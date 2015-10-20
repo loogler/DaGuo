@@ -72,8 +72,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.daguo.modem.adress.landDivideServeice" />
-
         <!-- com.daguo.modem.photo 图片处理模块 -->
         <activity android:name="com.daguo.modem.photo.ImagePagerActivity" >
         </activity>
@@ -96,9 +94,7 @@
         </activity>
 
         <!-- com.daguo.modem.adress. 收货地 -->
-        <activity android:name="com.daguo.modem.adress.AddressChoose" />
-        <activity android:name="com.daguo.modem.adress.BuyAddress" />
-        <activity android:name="com.daguo.modem.adress.PersonAddress" />
+
         <activity android:name="com.daguo.modem.choujiang.ChouJiangAty" >
         </activity>
         <activity android:name="com.daguo.modem.choujiang.ChouJiangConsoleAty" >
@@ -109,8 +105,6 @@
         <activity android:name="com.daguo.ui.before.MainLoginAty" >
         </activity>
         <activity android:name="com.daguo.ui.before.UserAgreementAty" >
-        </activity>
-        <activity android:name="com.daguo.ui.before.AgreementActivity" >
         </activity>
         <activity android:name="com.daguo.ui.before.MainWelcomeAty" >
         </activity>
@@ -123,14 +117,6 @@
         </activity>
         <activity android:name="com.daguo.ui.commercial.Shop_OrderAty" >
         </activity>
-        <!-- 学校活动的部分包括新闻之类的所有 -->
-        <activity android:name="com.daguo.ui.event.Event_AwardsAty" >
-        </activity>
-        <activity android:name="com.daguo.ui.event.Event_NewsAty" >
-        </activity>
-        <activity android:name="com.daguo.ui.event.Event_News_DetailAty" >
-        </activity>
-        
 
         <!-- com.daguo.ui.main.  登录主页部分的界面 -->
         <activity android:name="com.daguo.ui.main.MainActivity" >
@@ -166,7 +152,11 @@
         </activity>
         <activity android:name="com.daguo.ui.school.School_Main4Aty" >
         </activity>
-
+        <!-- com.daguo.ui.school.huodong 校园活动新闻等部分功能 -->
+        <activity android:name="com.daguo.ui.school.huodong.SC_HuoDongAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.school.huodong.SC_HuoDong_DetailAty" >
+        </activity>
         <!-- com.daguoschool.ui.school.shuoshuo  校园的分支1  说说功能 -->
         <activity android:name="com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty" >
         </activity>
@@ -175,6 +165,13 @@
         <activity android:name="com.daguo.ui.school.shuoshuo.SC_ShuoShuo_EvaluationAty" >
         </activity>
         <activity android:name="com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty1" >
+        </activity>
+        <!-- com.daguo.ui.school.xinwen. 学校活动的部分包括新闻之类的所有 -->
+        <activity android:name="com.daguo.ui.school.xinwen.SC_XinWen_AwardsAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.school.xinwen.SC_XinWenAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.school.xinwen.SC_XinWen_DetailAty" >
         </activity>
         <!-- com.daguo.ui.settings -->
         <activity android:name="com.daguo.ui.settings.Setting_AboutAty" >
@@ -186,9 +183,11 @@
         <activity android:name="com.daguo.ui.settings.Setting_App_UserOpinion" >
         </activity>
         <!-- com.daguo.ui.user.  个人中心部分 -->
-        <activity android:name="com.daguo.ui.user.UserInfo_ModifyAty" >
+        <activity android:name="com.daguo.ui.user.UserInfo_ModifyAty1" >
         </activity>
         <activity android:name="com.daguo.ui.user.UserInfo_MyShuoShuoAty" >
+        </activity>
+        <activity android:name="com.daguo.ui.user.UserInfo_MyHuoDongAty" >
         </activity>
 
         <!-- alipay 支付宝 -->
@@ -454,40 +453,6 @@ v2.4.1添加的Service，Umeng的消息接收后的处理服务
 V1.3.0添加的service，负责下载通知的资源
 <service android:name="com.umeng.message.UmengDownloadResourceService" />
         -->
-
-
-        <!-- 友盟的更新 -->
-        <activity
-            android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
-        <activity android:name="com.umeng.example.update.UpdateHome" >
-        </activity>
-
-        <service
-            android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" >
-        </service>
-
-        <!-- intent service -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="55cda732e0f55a5e54001d07" >
-        </meta-data>
-        <meta-data
-            android:name="UMENG_MESSAGE_SECRET"
-            android:value="b3650a97981d0824996e239751d776e6" >
-        </meta-data>
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="Channel ID" />
-
-        <service
-            android:name="com.umeng.message.example.MyPushIntentService"
-            android:process=":push" />
-        <service android:name="com.umeng.message.UmengDownloadResourceService" >
-        </service>
-
         <!-- push service start -->
         <!-- 用于接收系统消息以保证PushService正常运行 -->
         <receiver

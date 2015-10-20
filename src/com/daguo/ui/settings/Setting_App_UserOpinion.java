@@ -5,9 +5,6 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import com.daguo.R;
-import com.daguo.utils.HttpUtil;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.daguo.R;
+import com.daguo.utils.HttpUtil;
 
 /**
  * 用户反馈信息 界面

@@ -13,8 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_white_round"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical"
             android:padding="0.5dp" >
 
             <RelativeLayout
@@ -179,6 +177,7 @@
                     android:paddingTop="5dp" >
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/shoucang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -241,10 +240,9 @@
                     android:text="全部评论（12）" />
 
                 <com.daguo.util.pulllistview.XListView
-                    android:background="@drawable/bg_rec"
-                    android:id="@+id/listview"
+                    android:id="@+id/xlistview"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1" >
                 </com.daguo.util.pulllistview.XListView>
             </LinearLayout>

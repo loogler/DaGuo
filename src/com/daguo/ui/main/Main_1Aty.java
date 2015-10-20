@@ -21,14 +21,13 @@ import android.widget.Toast;
 
 import com.daguo.R;
 import com.daguo.modem.schedule.Main_Aty;
-import com.daguo.ui.event.Event_AwardsAty;
-import com.daguo.ui.event.Event_NewsAty;
 import com.daguo.ui.operators.BroadBandAty;
 import com.daguo.ui.operators.MobileAty;
 import com.daguo.ui.operators.OperatorAty;
 import com.daguo.ui.school.School_MainAty;
-import com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty;
-import com.daguo.ui.user.UserInfo_ModifyAty;
+import com.daguo.ui.school.xinwen.SC_XinWenAty;
+import com.daguo.ui.school.xinwen.SC_XinWen_AwardsAty;
+import com.daguo.ui.user.UserInfo_ModifyAty1;
 
 /**
  * 
@@ -125,7 +124,7 @@ public class Main_1Aty extends Activity implements OnClickListener {
 
 								} else if (arg0 == 3) {
 									Intent intent = new Intent(Main_1Aty.this,
-											Event_AwardsAty.class);
+											SC_XinWen_AwardsAty.class);
 									startActivity(intent);
 								}
 							}
@@ -281,7 +280,7 @@ public class Main_1Aty extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.lin1:
-			Intent intents = new Intent(Main_1Aty.this, UserInfo_ModifyAty.class);
+			Intent intents = new Intent(Main_1Aty.this, UserInfo_ModifyAty1.class);
 			startActivity(intents);
 
 			// Toast.makeText(Main_1Aty.this, "大果校园欢迎您！", Toast.LENGTH_SHORT)
@@ -349,7 +348,7 @@ public class Main_1Aty extends Activity implements OnClickListener {
 			break;
 		case R.id.rl2:
 
-			Intent intent8 = new Intent(Main_1Aty.this, Event_NewsAty.class);
+			Intent intent8 = new Intent(Main_1Aty.this, SC_XinWenAty.class);
 			startActivity(intent8);
 			break;
 		case R.id.rl3:
@@ -404,7 +403,7 @@ public class Main_1Aty extends Activity implements OnClickListener {
 		case R.id.iv_buttom1:
 			// Toast.makeText(getBaseContext(), "跳转至广告宣传/活动/功能2++",
 			// Toast.LENGTH_SHORT).show();
-			Intent intent5 = new Intent(Main_1Aty.this, Event_AwardsAty.class);
+			Intent intent5 = new Intent(Main_1Aty.this, SC_XinWen_AwardsAty.class);
 			startActivity(intent5);
 			break;
 		case R.id.iv_jiantou:

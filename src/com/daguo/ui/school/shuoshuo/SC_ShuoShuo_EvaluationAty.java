@@ -39,9 +39,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daguo.R;
-import com.daguo.util.adapter.SC_ShuoShuo_EvaAdapter;
+import com.daguo.util.adapter.Eva_OrdinaryAdapter;
 import com.daguo.util.base.CircularImage;
-import com.daguo.util.beans.ShuoShuo_Evaluate;
+import com.daguo.util.beans.Evaluate_Ordinary;
 import com.daguo.util.pulllistview.XListView;
 import com.daguo.util.pulllistview.XListView.IXListViewListener;
 import com.daguo.utils.HttpUtil;
@@ -50,18 +50,24 @@ import com.daguo.view.dialog.CustomProgressDialog;
 public class SC_ShuoShuo_EvaluationAty extends Activity implements
 		OnClickListener, IXListViewListener, OnItemClickListener {
 	String tag = "SC_ShuoShuo_EvaluationAty";
+	final int  INITDATA=0 ,ZANADD=1,ZANMIN=2,PINGLUN=3;
 	private ImageView headView, imgView, sex_iv;
-	private TextView user_nick, content, date, zan, pinglun, schoolName, type;
+	private TextView user_nick, content, date, schoolName, type;
 	private RelativeLayout evaluat;
 	CircularImage photo;
 	private XListView listView;
 	// 4个操作按钮 收藏点赞 分享评论
 	private TextView shoucangTextView, fenxiangTextView, dianzanTextView,
 			pinglunTextView;
-
+/**
+ * tool
+ * 
+ */
 	CustomProgressDialog dialog;
 	private FinalBitmap finalBitmap;
-
+/**
+ * 弹窗显示输入框
+ */
 	private PopupWindow editWindow;
 	private EditText replyEdit;
 	private Button sendBtn;
@@ -72,9 +78,9 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	String p_id;
 
 	// 数据
-	private List<ShuoShuo_Evaluate> lists = new ArrayList<ShuoShuo_Evaluate>();
-	private ShuoShuo_Evaluate list;
-	private SC_ShuoShuo_EvaAdapter adapter;
+	private List<Evaluate_Ordinary> lists = new ArrayList<Evaluate_Ordinary>();
+	private Evaluate_Ordinary list;
+	private Eva_OrdinaryAdapter adapter;
 
 	Message msg;
 	private int pageIndex = 1;
@@ -82,17 +88,24 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case 0:
-				break;
-			case 3:
+			case INITDATA:
+			
 				if (msg.obj != null && !msg.obj.equals("")) {
-					List<ShuoShuo_Evaluate> sss = (List<ShuoShuo_Evaluate>) msg.obj;
+					List<Evaluate_Ordinary> sss = (List<Evaluate_Ordinary>) msg.obj;
 					lists.addAll(sss);
 					adapter.notifyDataSetChanged();
-
 				} else {
-					Log.e(tag, "msg==null  位于msg=3");
+					Log.e(tag, "msg==null  位于msg=1");
 				}
+				break;
+			case ZANADD:
+				dialog.dismiss();
+				break; 
+			case ZANMIN:
+				dialog.dismiss();
+				break;
+			case PINGLUN:
+				dialog.dismiss();
 				break;
 
 			default:
@@ -121,26 +134,29 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 		school_name = i.getStringExtra("school_name");
 		type_name = i.getStringExtra("type");
 
-		init();
-		new Thread(new Init()).start();
-		adapter = new SC_ShuoShuo_EvaAdapter(SC_ShuoShuo_EvaluationAty.this,
+		init();//初始化控件
+		adapter = new Eva_OrdinaryAdapter(SC_ShuoShuo_EvaluationAty.this,
 				lists);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
 		listView.setPullRefreshEnable(true);
 		listView.setPullLoadEnable(true);
 		listView.setXListViewListener(this);
+		initData();//初始化数据
 
 	}
-
+/**
+ * 初始化控件
+ */
 	private void init() {
-		evaluat = (RelativeLayout) findViewById(R.id.evaluat);
+		evaluat = (RelativeLayout) findViewById(R.id.evaluat);// 根布局
+		// 实例化的数据
 		headView = (ImageView) findViewById(R.id.photo);
 		imgView = (ImageView) findViewById(R.id.image_content);
 		user_nick = (TextView) findViewById(R.id.name);
 		content = (TextView) findViewById(R.id.content_text);
 		date = (TextView) findViewById(R.id.date);
-		listView = (XListView) findViewById(R.id.listview);
+		listView = (XListView) findViewById(R.id.xlistview);
 		schoolName = (TextView) findViewById(R.id.schoolname);
 		sex_iv = (ImageView) findViewById(R.id.sex_iv);
 		type = (TextView) findViewById(R.id.type);
@@ -155,8 +171,7 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 		pinglunTextView.setOnClickListener(this);
 
 		imgView.setOnClickListener(this);
-		pinglun.setOnClickListener(this);
-		zan.setOnClickListener(this);
+		content.setText(content1);
 
 		schoolName.setText(school_name);
 		if (p_sex.equals("0")) {
@@ -185,102 +200,99 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	}
 
 	/**
-	 * 获取当前说说的信息
-	 * 
-	 * @author Bugs_Rabbit 時間： 2015-8-27 下午10:41:37
+	 * 初始化的界面数据 也可用于操作后界面刷新
 	 */
-	class Init implements Runnable {
+	private void initData() {
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					List<Evaluate_Ordinary> ls = new ArrayList<Evaluate_Ordinary>();
+					String url = HttpUtil.QUERY_SHUOSHUO_EVA + "&rows=20&page="
+							+ pageIndex;
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("t_id", id);
+					String res = HttpUtil.postRequest(url, map);
+					JSONObject js = new JSONObject(res);
+					int total = js.getInt("total");
+					if (total != 0) {
+						// 有评论
+						JSONArray array = js.getJSONArray("rows");
+						for (int i = 0; i < array.length(); i++) {
+							list = new Evaluate_Ordinary();
+							String parent_id = array.optJSONObject(i)
+									.getString("parent_id");
+							String content = array.optJSONObject(i).getString(
+									"content");
+							String create_time = array.optJSONObject(i)
+									.getString("create_time");
+							String p_id = array.optJSONObject(i).getString(
+									"p_id");
+							String p_name = array.optJSONObject(i).getString(
+									"p_name");
+							String head_info = array.optJSONObject(i)
+									.getString("head_info");
+							list.setContent(content);
+							list.setCreate_time(create_time);
+							list.setHead_info(head_info);
+							list.setP_id(p_id);
+							list.setP_name(p_name);
+							list.setParent_id(parent_id);
+							ls.add(list);
+						}
 
-		@Override
-		public void run() {
+						msg = handler.obtainMessage(INITDATA);
+						msg.obj = ls;
+						msg.sendToTarget();
 
-			try {
-				List<ShuoShuo_Evaluate> ls = new ArrayList<ShuoShuo_Evaluate>();
-				String url = HttpUtil.QUERY_SHUOSHUO_EVA + "&rows=20&page="
-						+ pageIndex;
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("t_id", id);
-				String res = HttpUtil.postRequest(url, map);
-				JSONObject js = new JSONObject(res);
-				int total = js.getInt("total");
-				if (total != 0) {
-					// 有评论
-					JSONArray array = js.getJSONArray("rows");
-					for (int i = 0; i < array.length(); i++) {
-						list = new ShuoShuo_Evaluate();
-						String parent_id = array.optJSONObject(i).getString(
-								"parent_id");
-						String content = array.optJSONObject(i).getString(
-								"content");
-						String create_time = array.optJSONObject(i).getString(
-								"create_time");
-						String p_id = array.optJSONObject(i).getString("p_id");
-						String p_name = array.optJSONObject(i).getString(
-								"p_name");
-						String head_info = array.optJSONObject(i).getString(
-								"head_info");
-						list.setContent(content);
-						list.setCreate_time(create_time);
-						list.setHead_info(head_info);
-						list.setP_id(p_id);
-						list.setP_name(p_name);
-						list.setParent_id(parent_id);
-						ls.add(list);
+					} else {
+						// 无评论
+//						msg = handler.obtainMessage(1);
+//						msg.sendToTarget();
+
 					}
-
-					msg = handler.obtainMessage(3);
-					msg.obj = ls;
-					msg.sendToTarget();
-
-				} else {
-					// 无评论
-					msg = handler.obtainMessage(4);
-					msg.sendToTarget();
-
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 
+			}
+		}).start();
 	}
 
 	/**
-	 * 点赞 点赞接口调用自动增加1个数
-	 * 
-	 * @author Bugs_Rabbit 時間： 2015-8-27 下午10:41:28
+	 * 点赞数+1
 	 */
-	class Zan_Add implements Runnable {
+	private void zanAdd() {
+		new Thread(new Runnable() {
+			public void run() {
 
-		@Override
-		public void run() {
-			// 修改点赞数
+				// 修改点赞数
 
-			try {
-				String url = HttpUtil.SUBMIT_SHUSHUO_EVA;
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("id", id);// id
-				String res = HttpUtil.postRequest(url, map);
-				JSONObject js = new JSONObject(res);
-				String aaa = js.getString("msg");// 返回字段
-				if (aaa.contains("操作失败")) {
-					// 失败
-					runOnUiThread(new Runnable() {
-						public void run() {
-							Toast.makeText(SC_ShuoShuo_EvaluationAty.this,
-									"提交失败，请重试", Toast.LENGTH_SHORT).show();
-						}
-					});
-				} else {
-					// 界面赞数增加+1
-					msg = handler.obtainMessage(0);
-					msg.sendToTarget();
+				try {
+					String url = HttpUtil.SUBMIT_SHUSHUO_EVA;
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("id", id);// id
+					String res = HttpUtil.postRequest(url, map);
+					JSONObject js = new JSONObject(res);
+					String aaa = js.getString("msg");// 返回字段
+					if (aaa.contains("操作失败")) {
+						// 失败
+						runOnUiThread(new Runnable() {
+							public void run() {
+								Toast.makeText(SC_ShuoShuo_EvaluationAty.this,
+										"提交失败，请重试", Toast.LENGTH_SHORT).show();
+							}
+						});
+					} else {
+						// 界面赞数增加+1
+						msg = handler.obtainMessage(ZANADD);
+						msg.sendToTarget();
+					}
+
+				} catch (Exception e) {
 				}
 
-			} catch (Exception e) {
 			}
-
-		}
+		}).start();
 	}
 
 	/**
@@ -288,40 +300,39 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	 * 
 	 * @author Bugs_Rabbit 時間： 2015-8-31 上午9:01:33
 	 */
-	class Zan_Min implements Runnable {
+	private void zanMin() {
+		new Thread(new Runnable() {
+			public void run() {
 
-		@Override
-		public void run() {
+				try {
+					int cc = Integer.parseInt(good_count) - 2;
+					String url = HttpUtil.SUBMIT_SHUSHUO_EVA;
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("id", id);// id
+					map.put("godd_count", String.valueOf(cc));
+					String res = HttpUtil.postRequest(url, map);
+					JSONObject js = new JSONObject(res);
+					String aaa = js.getString("msg");// 返回字段
+					if (aaa.contains("操作失败")) {
+						// 失败
+						runOnUiThread(new Runnable() {
+							public void run() {
+								Toast.makeText(SC_ShuoShuo_EvaluationAty.this,
+										"提交失败，请重试", Toast.LENGTH_SHORT).show();
+							}
+						});
 
-			try {
-				int cc = Integer.parseInt(good_count) - 2;
-				String url = HttpUtil.SUBMIT_SHUSHUO_EVA;
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("id", id);// id
-				map.put("godd_count", String.valueOf(cc));
-				String res = HttpUtil.postRequest(url, map);
-				JSONObject js = new JSONObject(res);
-				String aaa = js.getString("msg");// 返回字段
-				if (aaa.contains("操作失败")) {
-					// 失败
-					runOnUiThread(new Runnable() {
-						public void run() {
-							Toast.makeText(SC_ShuoShuo_EvaluationAty.this,
-									"提交失败，请重试", Toast.LENGTH_SHORT).show();
-						}
-					});
+					} else {
+						// 界面赞数增加-1
+						msg = handler.obtainMessage(ZANMIN);
+						msg.sendToTarget();
+					}
 
-				} else {
-					// 界面赞数增加-1
-					msg = handler.obtainMessage(1);
-					msg.sendToTarget();
+				} catch (Exception e) {
 				}
 
-			} catch (Exception e) {
 			}
-
-		}
-
+		}).start();
 	}
 
 	/**
@@ -329,45 +340,46 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	 * 
 	 * @author Bugs_Rabbit 時間： 2015-8-28 上午10:31:24
 	 */
-	class ShuoShuo implements Runnable {
+	private void sendShuoShuo() {
+		new Thread(new Runnable() {
+			public void run() {
 
-		@Override
-		public void run() {
-			// /先调出输入框 获取文字 提交 显示在界面
-			feedback_content = replyEdit.getText().toString();
-			if (feedback_content != null && !feedback_content.equals("")) {
-				String url = HttpUtil.SUBMIT_SHUSHUO_EVA;
-				// String
-				// url="http://192.168.1.103:8080/XYYYT/service/topicFeedback/saveOrUpdate?android=1";
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("t_id", id);
-				map.put("content", feedback_content);
-				map.put("p_id", p_id);
+				// /先调出输入框 获取文字 提交 显示在界面
+				feedback_content = replyEdit.getText().toString();
+				if (feedback_content != null && !feedback_content.equals("")) {
+					String url = HttpUtil.SUBMIT_SHUSHUO_EVA;
+					// String
+					// url="http://192.168.1.103:8080/XYYYT/service/topicFeedback/saveOrUpdate?android=1";
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("t_id", id);
+					map.put("content", feedback_content);
+					map.put("p_id", p_id);
 
-				try {
-					String res = HttpUtil.postRequest(url, map);
-					// TODO 对结果做判定
+					try {
+						String res = HttpUtil.postRequest(url, map);
+						// TODO 对结果做判定
 
-					msg = handler.obtainMessage(5);
-					msg.sendToTarget();
-					new Thread(new Init()).start();
+						msg = handler.obtainMessage(PINGLUN);
+						msg.sendToTarget();
+						initData();
 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			} else {
-				// 空内容
-				runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(SC_ShuoShuo_EvaluationAty.this,
-								"文字不能为空", Toast.LENGTH_SHORT).show();
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				});
-			}
-			// dialog.dismiss();
 
-		}
+				} else {
+					// 空内容
+					runOnUiThread(new Runnable() {
+						public void run() {
+							Toast.makeText(SC_ShuoShuo_EvaluationAty.this,
+									"文字不能为空", Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+				// dialog.dismiss();
+
+			}
+		}).start();
 	}
 
 	/**
@@ -406,11 +418,16 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 				manager.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
 			}
 		});
+		// 发表说说的评论
 		sendBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				new Thread(new ShuoShuo()).start();
+				dialog = CustomProgressDialog.createDialog(
+						SC_ShuoShuo_EvaluationAty.this, "加载中。。。");
+				editWindow.dismiss();
+				dialog.show();
+				sendShuoShuo();
 			}
 		});
 
@@ -470,19 +487,23 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
 		case R.id.shoucang:
-			// 点赞 后台处理 界面锁定 结束赞数加一 。
-			/**
-			 * dialog = CustomProgressDialog.createDialog(
-			 * SC_ShuoShuo_EvaluationAty.this, "加载中。。。"); dialog.show();
-			 */
+			
 			break;
 		case R.id.fenxiang:
-			// dialog = CustomProgressDialog.createDialog(
-			// SC_ShuoShuo_EvaluationAty.this, "加载中。。。");
-			// dialog.show();
 
+			break;
+		case R.id.pinglun:
+			
 			showDiscuss();
 
+			break;
+		case R.id.dianzan:
+			dialog = CustomProgressDialog.createDialog(
+					SC_ShuoShuo_EvaluationAty.this, "加载中。。。");
+			dialog.show();
+			zanAdd();
+			
+			
 			break;
 		case R.id.image_content:
 			String[] urls = new String[] { img_path };
@@ -505,7 +526,8 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	@Override
 	public void onRefresh() {
 		pageIndex = 1;
-		new Thread(new Init()).start();
+		lists.clear();
+		initData();
 
 		onLoad();
 
@@ -514,7 +536,8 @@ public class SC_ShuoShuo_EvaluationAty extends Activity implements
 	@Override
 	public void onLoadMore() {
 		pageIndex++;
-		new Thread(new Init()).start();
+		lists.clear();
+		initData();
 		onLoad();
 	}
 

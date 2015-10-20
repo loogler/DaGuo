@@ -73,7 +73,8 @@ public class HttpUtil {
 	/**
 	 * 意见反馈接口 传入个人id
 	 */
-	public static final String USEROPINION=URL+"adviceFeedback/saveOrUpdate?android=1";
+	public static final String USEROPINION = URL
+			+ "adviceFeedback/saveOrUpdate?android=1";
 
 	/**
 	 * 上传图片url
@@ -142,8 +143,17 @@ public class HttpUtil {
 			+ "acceptPrize/queryAcceptPrizeList?android=1&page=1&rows=10";
 	public static final String SUBMIT_AWARDSTATUS = URL
 			+ "acceptPrize/saveOrUpdate?android=1";
+	/**
+	 * 新闻查询
+	 */
 	public static final String QUERY_NEWS = URL
 			+ "article/queryArticleList?android=1&menu_id=db94a88d-5c78-448b-a3a7-4af1c3850571";
+
+	/**
+	 * 活动查询
+	 */
+	public static final String QUERY_HUODONG = URL
+			+ "article/queryArticleList?android=1&menu_id=b3b7866c-3bf9-48a7-8caa-effa1fb86782";
 
 	/***** 说说************************** split line ************************************************/
 	/**
@@ -157,15 +167,23 @@ public class HttpUtil {
 	public static final String QUERY_SHUOSHUO = URL
 			+ "topic/queryTopicList?android=1";
 	/**
-	 * 说说评论的查询 需要传入id参数
+	 * 说说评论的查询 需要传入id参数 以及page rows参数
 	 */
 	public static final String QUERY_SHUOSHUO_EVA = URL
-			+ "topicFeedback/queryTopicFeedbackList?android=1&page=1&rows=999";
+			+ "topicFeedback/queryTopicFeedbackList?android=1";
 	/**
 	 * 说说评论的修改提交 需要传入id 和评论者信息
 	 */
 	public static final String SUBMIT_SHUSHUO_EVA = URL
 			+ "topicFeedback/saveOrUpdate?android=1";
+
+	/* 、********************广告位******************************************8、 */
+
+	/**
+	 * 广告位 post 需要参数为 position =轮播广告类型 page=当前页码 rows=当前页码显示条数
+	 */
+	public static final String QUERY_ADD_BANNER = URL
+			+ "ad/queryAdList?android=1";
 
 	/*************************** split line *************************************/
 	/**
@@ -246,7 +264,7 @@ public class HttpUtil {
 							List<NameValuePair> params = new ArrayList<NameValuePair>();
 							for (String key : rawParams.keySet()) {
 								// 封装请求参数
-							
+
 								params.add(new BasicNameValuePair(key,
 										rawParams.get(key)));
 

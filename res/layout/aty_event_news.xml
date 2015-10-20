@@ -8,9 +8,9 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="45dip"
-        android:background="@color/green_home" >
+        android:background="@drawable/topbar_myshuoshuo_bg" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/friend_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,44 +45,41 @@
         android:layout_height="wrap_content" >
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/tuijian_vPager"
+            android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="140dp" >
-        </android.support.v4.view.ViewPager>
+            android:layout_height="150dp" />
 
-        <RadioGroup
-            android:id="@+id/radioGroup1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tuijian_vPager"
-            android:layout_alignParentRight="true"
-            android:button="@drawable/btn_radio_holo_light1"
-            android:clickable="false"
-            android:orientation="horizontal" >
+            android:layout_alignBottom="@id/viewpager"
+            android:background="#33000000"
+            android:orientation="vertical"
+            android:padding="5dp" >
 
-            <RadioButton
-                android:id="@+id/radio0"
+            <TextView
+                android:id="@+id/tv_bannertext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:button="@drawable/btn_radio_holo_light1"
-                android:checked="true"
-                android:clickable="false" />
+                android:layout_gravity="center_vertical"
+                android:padding="5dp"
+                android:text="我是第一个广告语"
+                android:textColor="@android:color/white" />
 
-            <RadioButton
-                android:id="@+id/radio1"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/points"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:button="@drawable/btn_radio_holo_light1"
-                android:clickable="false" />
-        </RadioGroup>
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
-    <com.daguo.util.base.AutoListView
-        android:id="@+id/autoListView"
+    <com.daguo.util.pulllistview.XListView
+        android:id="@+id/xListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    </com.daguo.util.base.AutoListView>
+    </com.daguo.util.pulllistview.XListView>
 
 </LinearLayout>

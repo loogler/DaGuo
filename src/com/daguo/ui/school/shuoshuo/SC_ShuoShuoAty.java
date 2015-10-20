@@ -21,11 +21,10 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.daguo.R;
-import com.daguo.ui.user.UserInfo_ModifyAty;
+import com.daguo.ui.user.UserInfo_ModifyAty1;
 import com.daguo.util.adapter.SC_ShuoShuoAdapter;
 import com.daguo.util.base.AutoListView;
 import com.daguo.util.base.AutoListView.OnLoadListener;
@@ -285,7 +284,7 @@ public class SC_ShuoShuoAty extends Activity implements OnRefreshListener,
 											int arg1) {
 										Intent intent = new Intent(
 												SC_ShuoShuoAty.this,
-												UserInfo_ModifyAty.class);
+												UserInfo_ModifyAty1.class);
 										startActivity(intent);
 									}
 								}).setNegativeButton("取消", null).create()

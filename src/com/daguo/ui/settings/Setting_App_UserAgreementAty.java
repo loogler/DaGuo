@@ -1,11 +1,11 @@
 package com.daguo.ui.settings;
 
-import com.daguo.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.daguo.R;
 
 /**
  * 用户协议界面

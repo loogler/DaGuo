@@ -7,20 +7,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.ShareCompat.IntentBuilder;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daguo.R;
 import com.daguo.ui.main.MainActivity;
-import com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty;
 import com.daguo.ui.school.shuoshuo.SC_ShuoShuo_WriteAty;
-import com.daguo.ui.user.UserInfo_ModifyAty;
+import com.daguo.ui.user.UserInfo_ModifyAty1;
 
 /**
  * 
@@ -109,7 +106,7 @@ public class School_MainAty extends TabActivity {
 										int arg1) {
 									Intent intent = new Intent(
 											School_MainAty.this,
-											UserInfo_ModifyAty.class);
+											UserInfo_ModifyAty1.class);
 									startActivity(intent);
 								}
 							}).setNegativeButton("取消", null).create().show();

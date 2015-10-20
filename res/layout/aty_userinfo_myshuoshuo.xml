@@ -28,10 +28,10 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
-    <com.daguo.util.base.AutoListView
-        android:id="@+id/autoListView"
+    <com.daguo.util.pulllistview.XListView
+        android:id="@+id/xListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    </com.daguo.util.base.AutoListView>
+    </com.daguo.util.pulllistview.XListView>
 
 </LinearLayout>

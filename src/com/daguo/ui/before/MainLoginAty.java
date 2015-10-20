@@ -13,9 +13,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,7 +29,6 @@ import com.daguo.R;
 import com.daguo.ui.main.MainActivity;
 import com.daguo.util.message.xioo;
 import com.daguo.utils.HttpUtil;
-import com.daguo.utils.ImgHandlerUtil;
 import com.daguo.utils.TelNumberCheckUtil;
 import com.daguo.view.dialog.CustomProgressDialog;
 
@@ -245,7 +241,7 @@ public class MainLoginAty extends Activity {
 									editor.putString("school_name", school_name);//学校名称
 									editor.putString("start_year", start_year);//学年
 									editor.putString("score", score);//积分
-									editor.putString("id_card", id_card);//身份证号
+									editor.putString("id_card", id_card);//学生证号  这里的身份证废弃现在成为学号
 									editor.putString("id_card_copy",
 											id_card_copy);//身份证路径
 									editor.putString("address", address);//地址

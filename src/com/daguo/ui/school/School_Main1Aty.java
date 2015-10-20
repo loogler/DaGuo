@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import com.daguo.R;
 import com.daguo.modem.schedule.Main_Aty;
-import com.daguo.ui.event.Event_AwardsAty;
-import com.daguo.ui.event.Event_NewsAty;
+import com.daguo.ui.school.huodong.SC_HuoDongAty;
 import com.daguo.ui.school.shuoshuo.SC_ShuoShuoAty1;
+import com.daguo.ui.school.xinwen.SC_XinWenAty;
 
 public class School_Main1Aty extends Activity implements OnClickListener {
 	private ImageView  iv_mail, iv_point,iv_back ;
@@ -108,7 +108,7 @@ public class School_Main1Aty extends Activity implements OnClickListener {
 			break;
 		case R.id.iv_xinwen:
 			// 校园新闻
-			Intent intent1 = new Intent(getBaseContext(), Event_NewsAty.class);
+			Intent intent1 = new Intent(getBaseContext(), SC_XinWenAty.class);
 			startActivity(intent1);
 			break;
 		case R.id.iv_shetuan:
@@ -122,7 +122,7 @@ public class School_Main1Aty extends Activity implements OnClickListener {
 			break;
 		case R.id.iv_huodong:
 			// 校园活动
-			Intent intent3 = new Intent(getBaseContext(), Event_AwardsAty.class);
+			Intent intent3 = new Intent(getBaseContext(), SC_HuoDongAty.class);
 			startActivity(intent3);
 			break;
 		case R.id.iv_back:

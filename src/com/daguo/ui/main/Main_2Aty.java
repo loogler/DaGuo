@@ -1,15 +1,12 @@
 package com.daguo.ui.main;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,14 +26,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daguo.R;
-import com.daguo.ui.event.Event_AwardsAty;
-import com.daguo.ui.main.Main_1Aty.PA;
-import com.daguo.ui.operators.MobileAty;
 import com.daguo.util.base.Fragment_Mall_Item;
 import com.daguo.util.base.InnerScrollView;
 import com.daguo.util.beans.Type;

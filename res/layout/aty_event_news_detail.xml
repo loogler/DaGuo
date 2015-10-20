@@ -41,44 +41,40 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:gravity="center_vertical"
         android:background="@drawable/bg_operation_type"
-        android:orientation="horizontal"
-        android:padding="10dp" >
+        android:orientation="horizontal" >
 
-        <TextView
+        <EditText
+            android:id="@+id/reply"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dip"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="分享"
-            android:textSize="16sp" />
+            android:background="@drawable/background_white_round"
+            android:paddingRight="36dp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="喜欢"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="评论"
+        <Button
+            android:id="@+id/send_msg"
+            android:layout_width="60dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:background="@drawable/background_white_round"
+            android:text="发送"
+            android:textColor="#f80"
             android:textSize="16sp" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout1"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/title" >
+        android:layout_below="@+id/title"
+        android:layout_marginBottom="45dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,7 +90,7 @@
                 android:background="@drawable/bg"
                 android:gravity="center_horizontal"
                 android:padding="10dp"
-                android:text="大标题"
+                android:text=""
                 android:textSize="18sp" />
 
             <TextView
@@ -104,7 +100,7 @@
                 android:background="@drawable/bg"
                 android:gravity="center_horizontal"
                 android:paddingBottom="15dp"
-                android:text="副标题"
+                android:text=""
                 android:textSize="16sp" />
 
             <FrameLayout
@@ -129,6 +125,13 @@
                         android:scrollbars="none" />
                 </FrameLayout>
             </FrameLayout>
+            
+            <com.daguo.util.pulllistview.XListView 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/xlistview"
+                
+                ></com.daguo.util.pulllistview.XListView>
         </LinearLayout>
     </ScrollView>
 

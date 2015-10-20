@@ -3,21 +3,18 @@ package com.daguo.util.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.daguo.R;
-import com.daguo.ui.event.Event_NewsAty;
-import com.daguo.ui.event.Event_News_DetailAty;
-import com.daguo.util.beans.News;
-import com.daguo.utils.HttpUtil;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.daguo.R;
+import com.daguo.util.beans.News;
+import com.daguo.utils.HttpUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class NewsAdapter extends BaseAdapter {
 	private Context context;

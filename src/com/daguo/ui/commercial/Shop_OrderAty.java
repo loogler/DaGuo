@@ -20,8 +20,7 @@ import android.widget.Toast;
 
 import com.daguo.R;
 import com.daguo.ui.before.MyAppliation;
-import com.daguo.ui.operators.MoblieOrderAty;
-import com.daguo.ui.user.UserInfo_ModifyAty;
+import com.daguo.ui.user.UserInfo_ModifyAty1;
 import com.daguo.util.alipay.PayDemoActivity;
 import com.daguo.util.base.Fragment_Mall_Item;
 import com.daguo.util.base.LineEditText;
@@ -75,7 +74,7 @@ public class Shop_OrderAty extends Activity {
 													int arg1) {
 												Intent intent = new Intent(
 														Shop_OrderAty.this,
-														UserInfo_ModifyAty.class);
+														UserInfo_ModifyAty1.class);
 												startActivity(intent);
 											}
 										}).create().show();
